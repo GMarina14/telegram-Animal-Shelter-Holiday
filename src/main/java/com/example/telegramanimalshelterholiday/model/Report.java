@@ -1,13 +1,17 @@
 package com.example.telegramanimalshelterholiday.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
+@Data
 public class Report {
 
     private Long id;

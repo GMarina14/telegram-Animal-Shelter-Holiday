@@ -1,4 +1,4 @@
-package com.example.telegramanimalshelterholiday.recommendations;
+package com.example.telegramanimalshelterholiday.constants;
 
 import lombok.Data;
 
