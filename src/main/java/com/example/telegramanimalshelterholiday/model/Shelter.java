@@ -1,8 +1,10 @@
 package com.example.telegramanimalshelterholiday.model;
 
 import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -36,6 +38,13 @@ public class Shelter {
     public Shelter() {
 
     }
+    @OneToMany(mappedBy = "shelter")
+    @JsonIgnore
+    private List<Animal> animalList;
+
+    @OneToMany(mappedBy = "shelter")
+    @JsonIgnore
+    private List<Volunteer>volunteerList;
 
 
     public Shelter(String name, PetsSpecies petsSpecies) {

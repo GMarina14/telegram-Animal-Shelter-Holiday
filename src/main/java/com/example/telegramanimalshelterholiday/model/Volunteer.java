@@ -1,10 +1,10 @@
 package com.example.telegramanimalshelterholiday.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -19,4 +19,11 @@ public class Volunteer {
     private String name;
     private long shatId;
 
+    @OneToMany(mappedBy = "volunteer")
+    @JsonIgnore
+    private List<Contract> contractList;
+
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 }
