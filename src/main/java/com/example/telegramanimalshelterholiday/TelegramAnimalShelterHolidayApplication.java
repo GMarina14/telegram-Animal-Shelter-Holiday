@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TelegramAnimalShelterHolidayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TelegramAnimalShelterHolidayApplication.class, args);
+		System.out.println("Hello world!");
 	}
+
 
 }
