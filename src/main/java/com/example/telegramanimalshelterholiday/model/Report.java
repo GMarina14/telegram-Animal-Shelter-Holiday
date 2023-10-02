@@ -1,9 +1,6 @@
 package com.example.telegramanimalshelterholiday.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -103,19 +100,13 @@ public class Report {
                 '}';
     }
 
-    /*
+    @ManyToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
+
     @ManyToOne
     @JoinColumn(name = "adopter_id")
     private Adopter adopter;
-
-    @ManyToOne
-    @JoinColumn(name = "animal_id")
-    private Animal animal;*/
-
-    /*на стороне Animal
-    @JsonIgnore
-    @OneToMany(mappedBy = "animal")
-    private List<Report> reports;*/
 
 
 }

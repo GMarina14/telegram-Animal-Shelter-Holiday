@@ -1,10 +1,9 @@
 package com.example.telegramanimalshelterholiday.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +13,6 @@ public class Adopter extends Client {
     private Long id;
     private String firstName;
     private String lastName;
-    //private Contract contract;
     private Integer probExtend;
 
     public Adopter(Long chatId, String userName, String phoneNumber, Long id, String firstName, String lastName, Integer probExtend) {
@@ -35,6 +33,11 @@ public class Adopter extends Client {
     public Adopter(Long chatId, String userName, String phoneNumber) {
         super(chatId, userName, phoneNumber);
     }
+
+    public Adopter() {
+
+    }
+
 
     @Override
     public Long getId() {
@@ -88,21 +91,17 @@ public class Adopter extends Client {
                 ", probExtend=" + probExtend +
                 '}';
     }
-}
-
-
-    /* @JsonIgnore
-    @OneToMany(mappedBy = "adopter")
-    private List<Animal> animals;
-
-    *//*на строне Animal нам нужно добавить следующее
-    @ManyToOne
-    @JoinColumn(name = "adopter_id")
-    private Adopter adopter;*//*
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "adopter")
-    private List<Report> reports;*/
+    private List<Animal> animalList;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "adopter")
+    private List<Report> reports;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "adopter")
+    private List<Contract> contractList;
+}
 

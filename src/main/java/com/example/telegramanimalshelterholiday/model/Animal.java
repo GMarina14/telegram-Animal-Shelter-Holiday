@@ -3,14 +3,15 @@ package com.example.telegramanimalshelterholiday.model;
 import com.example.telegramanimalshelterholiday.constants.enums.Health;
 import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.constants.enums.Sex;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,5 +27,18 @@ public class Animal {
     private PetsSpecies petsSpecies;
     private Sex sex;
     private Health health;
+
+    @OneToMany(mappedBy = "animal")
+    @JsonIgnore
+    private List<Report> reportList;
+
+    @ManyToOne
+    @JoinColumn(name = "adopter_id")
+    private Adopter adopter;
+
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
+
 
 }
