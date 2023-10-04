@@ -1,6 +1,5 @@
 package com.example.telegramanimalshelterholiday.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -9,7 +8,8 @@ import java.util.Objects;
 @Entity
 public class Adopter extends Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="adopterSequence",sequenceName = "adopter_sequence",allocationSize = 1,initialValue =1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "adopterSequence")
     private Long id;
     private String firstName;
     private String lastName;
@@ -92,16 +92,19 @@ public class Adopter extends Client {
                 '}';
     }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "adopter")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "contract",
+            joinColumns = @JoinColumn(name = "adopter_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "animal_id", referencedColumnName = "id"))
     private List<Animal> animalList;
 
-/*    @JsonIgnore
-    @OneToMany(mappedBy = "adopter")
-    private List<Report> reports;*/
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "adopter")
-    private List<Contract> contractList;
+    @ManyToOne
+    @JoinColumn(name = "volunteer_id")
+    private Volunteer volunteer;
+
 }
 
