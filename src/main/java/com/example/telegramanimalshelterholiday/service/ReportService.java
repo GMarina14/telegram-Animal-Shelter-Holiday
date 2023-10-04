@@ -34,8 +34,7 @@ public class ReportService implements ReportInterface {
         logger.info("Calling method of report creation");
         // Нужна проверка наличия контракта с таким номером через репозиторий контракта с выбросом исключения
 
-        return null;
-               // reportRepository.save(report);
+        return reportRepository.save(report);
     }
 
 
@@ -50,8 +49,7 @@ public class ReportService implements ReportInterface {
     public Collection<Report> getAllReports(Long contractId) {
         logger.info("Calling method to get all reports, sent in the terms of contract");
 
-        return null;
-        //reportRepository.findAllByContractId(contractId).orElseThrow(() -> new NotFoundException("contract id not found"));
+        return reportRepository.findAllByContractId(contractId).orElseThrow(() -> new NotFoundException("contract id not found"));
     }
 
 
@@ -65,8 +63,7 @@ public class ReportService implements ReportInterface {
     public Report getReport(Long contractId, LocalDate date) {
         logger.info("Method to get an exact report, sent " + date.toString());
 
-        return null;
-               // reportRepository.findByContractIdAndAndReportDate(contractId, date).orElseThrow(() -> new NotFoundException("report with these contract id or date can not be found"));
+        return reportRepository.findByContractIdAndAndReportDate(contractId, date).orElseThrow(() -> new NotFoundException("report with these contract id or date can not be found"));
     }
 
 
