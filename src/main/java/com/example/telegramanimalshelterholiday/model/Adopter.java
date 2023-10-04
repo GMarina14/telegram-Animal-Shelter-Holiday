@@ -96,9 +96,9 @@ public class Adopter extends Client {
     @OneToMany(mappedBy = "adopter")
     private List<Animal> animalList;
 
-    @JsonIgnore
+/*    @JsonIgnore
     @OneToMany(mappedBy = "adopter")
-    private List<Report> reports;
+    private List<Report> reports;*/
 
     @JsonIgnore
     @OneToMany(mappedBy = "adopter")
