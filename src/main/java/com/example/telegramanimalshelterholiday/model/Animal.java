@@ -28,10 +28,10 @@ public class Animal {
     private Sex sex;
     private Health health;
 
-    @OneToMany(mappedBy = "animal")
+   /* @OneToMany(mappedBy = "animal")
     @JsonIgnore
     private List<Report> reportList;
-
+*/
     @ManyToOne
     @JoinColumn(name = "adopter_id")
     private Adopter adopter;

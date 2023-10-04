@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.model;
 
+import com.pengrad.telegrambot.model.Contact;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -9,6 +10,10 @@ import java.util.Objects;
 @Entity
 public class Report {
 
+    /**
+     * Модель создания ежедневных отчетов при усыновлении животного.
+     * Связь между животными, усыновителями и волонтером осуществляется через контракт.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +23,21 @@ public class Report {
     private String stateOfHealth;
     private String behavior;
 
-    public Report(LocalDate reportDate, byte[] photo, String diet, String stateOfHealth, String behavior) {
+    @ManyToOne
+    @JoinColumn(name = "contact_id")
+    private Contract contractId; // this field is needed
+
+
+/*    @ManyToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animalId;
+
+    @ManyToOne
+    @JoinColumn(name = "adopter_id")
+    private Adopter adopterId;*/
+
+    public Report(Contact ContractId, LocalDate reportDate, byte[] photo, String diet, String stateOfHealth, String behavior) {
+
         this.reportDate = reportDate;
         this.photo = photo;
         this.diet = diet;
@@ -27,7 +46,9 @@ public class Report {
     }
 
     public Report() {
+
     }
+
 
     public Long getId() {
         return id;
@@ -90,23 +111,13 @@ public class Report {
 
     @Override
     public String toString() {
-        return "Report{" +
-                "id=" + id +
-                ", reportDate=" + reportDate +
-                ", photo=" + Arrays.toString(photo) +
-                ", diet='" + diet + '\'' +
-                ", stateOfHealth='" + stateOfHealth + '\'' +
-                ", behavior='" + behavior + '\'' +
-                '}';
+        return "Report " + '\n' +
+                "id " + id + '\n' +
+                "reportDate " + reportDate + '\n' +
+                // "photo " + Arrays.toString(photo) +
+                "diet: " + diet + '\n' +
+                "state of health: " + stateOfHealth + '\n' +
+                "behavior: " + behavior;
+
     }
-
-    @ManyToOne
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
-
-    @ManyToOne
-    @JoinColumn(name = "adopter_id")
-    private Adopter adopter;
-
-
 }
