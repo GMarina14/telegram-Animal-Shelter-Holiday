@@ -1,16 +1,14 @@
 package com.example.telegramanimalshelterholiday.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="clientSequence",sequenceName = "client_sequence",allocationSize = 1,initialValue =1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "clientSequence")
     private Long id;
     private Long chatId;
     private String userName;
@@ -68,11 +66,18 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Usver{" +
+        return "Client{" +
                 "id=" + id +
                 ", chatId=" + chatId +
                 ", userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", shelter=" + shelter +
                 '}';
     }
+
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
+
+
 }

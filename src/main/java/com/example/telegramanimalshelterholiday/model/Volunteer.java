@@ -14,14 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 public class Volunteer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="volunteerSequence",sequenceName = "volunteer_sequence",allocationSize = 1,initialValue =1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "volunteerSequence")
     private Long id;
+
+    @Column(name="volunteer_name")
     private String name;
-    private long shatId;
+
 
     @OneToMany(mappedBy = "volunteer")
     @JsonIgnore
-    private List<Contract> contractList;
+    private List<Adopter> adopterList;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")

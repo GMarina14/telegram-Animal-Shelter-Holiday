@@ -1,9 +1,12 @@
 package com.example.telegramanimalshelterholiday.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -12,17 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Contract {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="contractSequence",sequenceName = "contract_sequence",allocationSize = 1,initialValue =1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "contractSequence")
     private Long id;
-    private String contractNumber;
-    private Date contractDate;
+    private LocalDate contractDate;
 
-    @ManyToOne
-    @JoinColumn(name="volunteer_id")
-    private Volunteer volunteer;
 
-    @ManyToOne
-    @JoinColumn(name="adopter_id")
-    private Adopter adopter;
+    @OneToMany(mappedBy = "contract")
+    @JsonIgnore
+    private List<Report> reportList;
 
 }
