@@ -20,18 +20,22 @@ public class Report {
     @Id
     @SequenceGenerator(name = "reportSequence", sequenceName = "report_sequence", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reportSequence")
+    @Column(name = "id")
     private Long id;
+    @Column(name = "report_data")
     private LocalDate reportDate;
 
     /**
      * Аннотация @Lob подсказывает Hibernate, что в поле хранится Large Object.
-     * А columnDefinition="BLOB" уже говорит о том, как это все сохранить в базе.
      */
     @Lob
-//    @Column(name = "photo", columnDefinition = "BLOB")
+   @Column(name = "photo")
     private byte[] photo;
+    @Column(name = "diet")
     private String diet;
+    @Column(name = "health")
     private String stateOfHealth;
+    @Column(name = "behavior")
     private String behavior;
 
 

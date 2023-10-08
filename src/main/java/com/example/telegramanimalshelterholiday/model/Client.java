@@ -9,9 +9,13 @@ public class Client {
     @Id
     @SequenceGenerator(name="clientSequence",sequenceName = "client_sequence",allocationSize = 1,initialValue =1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "clientSequence")
+    @Column(name="id")
     private Long id;
+    @Column(name="chat_id")
     private Long chatId;
+    @Column(name="user_name")
     private String userName;
+    @Column(name="phone_number")
     private String phoneNumber;
 
     public Client(Long chatId, String userName, String phoneNumber) {

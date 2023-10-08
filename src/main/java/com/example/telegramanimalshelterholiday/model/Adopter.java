@@ -8,11 +8,15 @@ import java.util.Objects;
 @Entity
 public class Adopter extends Client {
     @Id
-    @SequenceGenerator(name="adopterSequence",sequenceName = "adopter_sequence",allocationSize = 1,initialValue =1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "adopterSequence")
+    @SequenceGenerator(name = "adopterSequence", sequenceName = "adopter_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adopterSequence")
+    @Column(name = "id")
     private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "prob_extend")
     private Integer probExtend;
 
     public Adopter(Long chatId, String userName, String phoneNumber, Long id, String firstName, String lastName, Integer probExtend) {
