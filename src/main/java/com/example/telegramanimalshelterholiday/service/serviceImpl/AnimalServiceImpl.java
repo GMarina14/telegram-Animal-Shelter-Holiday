@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
-    private final Logger logger = LoggerFactory.getLogger(AnimalService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnimalServiceImpl.class);
 
     @Override
     public Animal getById(long id) {
@@ -38,7 +38,6 @@ public class AnimalServiceImpl implements AnimalService {
         logger.debug("Calling method remove");
         animalRepository.deleteById(id);
     }
-
 
 }
 

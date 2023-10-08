@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerRepository volunteerRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(VolunteerService.class);
+    private static Logger logger = LoggerFactory.getLogger(VolunteerServiceImpl.class);
 
     @Override
     public Volunteer getById(long id) {

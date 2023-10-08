@@ -19,7 +19,7 @@ public class ShelterServiceImpl implements ShelterService {
 
     private final ShelterRepository shelterRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(VolunteerService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShelterServiceImpl.class);
 
     @Override
     public Shelter getById(long id) {
