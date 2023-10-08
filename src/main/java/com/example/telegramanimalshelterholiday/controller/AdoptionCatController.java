@@ -44,13 +44,13 @@ public class AdoptionCatController {
     }*/
 
     //выдает список рекомендаций по транспортировке кота
-    @GetMapping("/reccomendation/transportation")
+    @GetMapping("/recommendation/transportation")
     public String getInfoAboutTransportation() {
         return adoptionService.getInfoAboutCatTransportation();
     }
 
     //выдает список рекомендаций по обустройству дома для котенка
-    @GetMapping("/reccomendation/home-adgustment-kitty")
+    @GetMapping("/recommendation/home-adgustment-kitty")
     public String getInfoAboutAdgustmentKitty() {
         return adoptionService.getInfoAboutAdgustmentKitty();
     }

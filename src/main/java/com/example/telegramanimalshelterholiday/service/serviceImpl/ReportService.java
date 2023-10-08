@@ -1,9 +1,10 @@
-package com.example.telegramanimalshelterholiday.service;
+package com.example.telegramanimalshelterholiday.service.serviceImpl;
 
 import com.example.telegramanimalshelterholiday.model.Report;
 import com.example.telegramanimalshelterholiday.model.Volunteer;
-import org.slf4j.Logger;
 import com.example.telegramanimalshelterholiday.repository.ReportRepository;
+import com.example.telegramanimalshelterholiday.service.ReportInterface;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;

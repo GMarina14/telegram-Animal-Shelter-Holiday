@@ -17,22 +17,31 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class Animal {
+    /**
+     * Модель создания животного.
+     * Связь с приютом и связь через контракт с усыновителем.
+     */
     @Id
     @SequenceGenerator(name="animalSequence",sequenceName = "animal_sequence",allocationSize = 1,initialValue =1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "animalSequence")
+    @Column(name="id")
     private Long id;
 
     @Column(name = "nick_name")
     private String name;
+    @Column(name="age")
     private int age;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="pets_species")
     private PetsSpecies petsSpecies;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="sex")
     private Sex sex;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="health")
     private Health health;
 
     @ManyToMany(cascade = CascadeType.ALL)

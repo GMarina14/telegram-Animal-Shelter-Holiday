@@ -1,9 +1,10 @@
+
 CREATE TABLE IF NOT EXISTS report(
 id INT8 PRIMARY KEY NOT NULL,
-reportDate DATE,
+report_data DATE,
 photo BYTEA,
 diet VARCHAR,
-stateOfHealth VARCHAR,
+health VARCHAR,
 behavior VARCHAR,
 contract_id INT8 REFERENCES contract(id)
 );

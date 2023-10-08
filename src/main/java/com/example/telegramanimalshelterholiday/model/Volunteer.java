@@ -13,14 +13,19 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 public class Volunteer {
+    /**
+     * Модель волонтер.
+     * Данная модель связана с усыновителем и приютом.
+     */
     @Id
-    @SequenceGenerator(name="volunteerSequence",sequenceName = "volunteer_sequence",allocationSize = 1,initialValue =1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "volunteerSequence")
+    @SequenceGenerator(name = "volunteerSequence", sequenceName = "volunteer_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "volunteerSequence")
+    @Column(name = "id")
     private Long id;
-
-    @Column(name="volunteer_name")
+    @Column(name = "volunteer_name")
     private String name;
-
+    @Column(name = "chat_id")
+    private Long chatId;
 
     @OneToMany(mappedBy = "volunteer")
     @JsonIgnore

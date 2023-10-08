@@ -1,45 +1,37 @@
 package com.example.telegramanimalshelterholiday.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Adopter extends Client {
+public class Adopter {
     @Id
-    @SequenceGenerator(name="adopterSequence",sequenceName = "adopter_sequence",allocationSize = 1,initialValue =1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "adopterSequence")
+    @SequenceGenerator(name = "adopterSequence", sequenceName = "adopter_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adopterSequence")
+    @Column(name = "id")
     private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "prob_extend")
     private Integer probExtend;
 
-    public Adopter(Long chatId, String userName, String phoneNumber, Long id, String firstName, String lastName, Integer probExtend) {
-        super(chatId, userName, phoneNumber);
-        this.id = id;
+    public Adopter(String firstName, String lastName, Integer probExtend) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.probExtend = probExtend;
-    }
-
-    public Adopter(Long id, String firstName, String lastName, Integer probExtend) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.probExtend = probExtend;
-    }
-
-    public Adopter(Long chatId, String userName, String phoneNumber) {
-        super(chatId, userName, phoneNumber);
     }
 
     public Adopter() {
-
     }
 
-
-    @Override
     public Long getId() {
         return id;
     }
@@ -72,14 +64,13 @@ public class Adopter extends Client {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Adopter adopter = (Adopter) o;
-        return Objects.equals(id, adopter.id) && Objects.equals(firstName, adopter.firstName) && Objects.equals(lastName, adopter.lastName) && Objects.equals(probExtend, adopter.probExtend);
+        return Objects.equals(getId(), adopter.getId()) && Objects.equals(getFirstName(), adopter.getFirstName()) && Objects.equals(getLastName(), adopter.getLastName()) && Objects.equals(getProbExtend(), adopter.getProbExtend());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, firstName, lastName, probExtend);
+        return Objects.hash(getId(), getFirstName(), getLastName(), getProbExtend());
     }
 
     @Override
