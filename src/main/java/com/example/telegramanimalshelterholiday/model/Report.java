@@ -28,7 +28,7 @@ public class Report {
     /**
      * Аннотация @Lob подсказывает Hibernate, что в поле хранится Large Object.
      */
-    @Lob
+
    @Column(name = "photo")
     private byte[] photo;
     @Column(name = "diet")

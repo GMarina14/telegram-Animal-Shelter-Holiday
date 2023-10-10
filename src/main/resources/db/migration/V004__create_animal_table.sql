@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS animal(
 id INT8 PRIMARY KEY NOT NULL,
 nick_name VARCHAR(50),
 age INT,
-pets_speсies VARCHAR,
+pets_species VARCHAR,
 sex VARCHAR,
 health VARCHAR,
 shelter_id INT8 REFERENCES shelter(id)
