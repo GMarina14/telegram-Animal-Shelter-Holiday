@@ -8,4 +8,5 @@ phone_number VARCHAR,
 path_description VARCHAR
 );
 
-CREATE SEQUENCE shelter_sequence START 1 INCREMENT 1;
+CREATE SEQUENCE shelter_sequence START 2 INCREMENT 1;
+

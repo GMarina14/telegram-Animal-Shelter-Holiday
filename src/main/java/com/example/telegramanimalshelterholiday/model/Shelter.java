@@ -26,17 +26,23 @@ public class Shelter {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shelterSequence")
     @Column(name = "id")
     private Long id;
+
     @Column(name = "shelter_name")
     private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "pets_species")
     private PetsSpecies petsSpecies;
+
     @Column(name = "city")
     private String city;
+
     @Column(name = "address")
     private String address;
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
     @Column(name = "path_description")
     private String yandexMapsUrl;
 
