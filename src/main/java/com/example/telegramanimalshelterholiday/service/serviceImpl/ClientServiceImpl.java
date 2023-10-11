@@ -35,9 +35,4 @@ public class ClientServiceImpl implements ClientService {
     public Collection<Client> getClientByChatID(Long chatId) {
         return clientRepository.findByChatId(chatId);
     }
-
-    @Override
-    public Collection<Client> getClientsWithPhoneNuber() {
-        return clientRepository.getClientsWithPhoneNumber();
-    }
 }

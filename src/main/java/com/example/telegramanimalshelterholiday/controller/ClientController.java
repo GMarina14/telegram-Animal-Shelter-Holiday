@@ -89,9 +89,4 @@ public class ClientController {
     public void removeClientById(@Parameter(description = "id клиента") Long id) {
         clientService.removeClient(id);
     }
-
-  /*  @GetMapping("/get-all-client-with-phone-number")
-    public Collection<Client> getClientsWithPhoneNuber() {
-        return clientService.getClientsWithPhoneNuber();
-    }*/
 }

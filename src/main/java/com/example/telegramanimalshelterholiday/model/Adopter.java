@@ -23,10 +23,18 @@ public class Adopter {
     @Column(name = "prob_extend")
     private Integer probExtend;
 
-    public Adopter(String firstName, String lastName, Integer probExtend) {
+    @Column(name = "chat_id")
+    private Long chatId;
+    @Column(name="phone_number")
+    private String phoneNumber;
+
+
+    public Adopter(String firstName, String lastName, Integer probExtend, Long chatId, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.probExtend = probExtend;
+        this.chatId = chatId;
+        this.phoneNumber = phoneNumber;
     }
 
     public Adopter() {
@@ -60,17 +68,32 @@ public class Adopter {
         this.probExtend = probExtend;
     }
 
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Adopter adopter = (Adopter) o;
-        return Objects.equals(getId(), adopter.getId()) && Objects.equals(getFirstName(), adopter.getFirstName()) && Objects.equals(getLastName(), adopter.getLastName()) && Objects.equals(getProbExtend(), adopter.getProbExtend());
+        if (!(o instanceof Adopter adopter)) return false;
+        return id.equals(adopter.id) && firstName.equals(adopter.firstName) && lastName.equals(adopter.lastName) && probExtend.equals(adopter.probExtend) && chatId.equals(adopter.chatId) && phoneNumber.equals(adopter.phoneNumber) && animalList.equals(adopter.animalList) && volunteer.equals(adopter.volunteer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getProbExtend());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getProbExtend(), getChatId(), getPhoneNumber());
     }
 
     @Override
@@ -79,6 +102,8 @@ public class Adopter {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", chatId=" + chatId +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", probExtend=" + probExtend +
                 '}';
     }
@@ -89,11 +114,7 @@ public class Adopter {
             inverseJoinColumns = @JoinColumn(name = "animal_id", referencedColumnName = "id"))
     private List<Animal> animalList;
 
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
-    private Shelter shelter;
-
-    @ManyToOne
+     @ManyToOne
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 

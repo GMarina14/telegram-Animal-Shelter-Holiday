@@ -25,11 +25,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query(value = "SELECT * FROM client WHERE chat_id = :id", nativeQuery = true)
     Collection<Client> findByChatId(@Param("id") Long id);
 
-    /**
-     * Получаем только тех клиентов, которые внесли свои данные(номер телефона)
-     */
-    @Query(value = "SELECT * FROM client WHERE phone_number IS NOT NULL ORDER BY user_name", nativeQuery = true)
-    List<Client> getClientsWithPhoneNumber();
-
 
 }
