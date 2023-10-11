@@ -34,8 +34,12 @@ public class Shelter {
     @Column(name = "pets_species")
     private PetsSpecies petsSpecies;
 
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "city")
     private String city;
+
 
     @Column(name = "address")
     private String address;
@@ -59,7 +63,7 @@ public class Shelter {
     @JsonIgnore
     private List<Client> clientsList;
 
-    @OneToMany(mappedBy = "shelter")
+   /* @OneToMany(mappedBy = "shelter")
     @JsonIgnore
-    private List<Adopter> adopterList;
+    private List<Adopter> adopterList;*/
 }

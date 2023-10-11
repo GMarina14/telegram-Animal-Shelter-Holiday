@@ -111,9 +111,7 @@ public class DogReportController {
         return ResponseEntity.ok(report);
     }
 
-
 /*-
 
 - позвать волонтера (catOrDog/shelter/report/call-volunteer)*/
-
 }

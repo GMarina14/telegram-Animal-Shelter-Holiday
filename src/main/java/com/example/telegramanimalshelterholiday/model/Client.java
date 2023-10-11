@@ -7,21 +7,19 @@ import java.util.Objects;
 @Entity
 public class Client {
     @Id
-    @SequenceGenerator(name="clientSequence",sequenceName = "client_sequence",allocationSize = 1,initialValue =1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "clientSequence")
-    @Column(name="id")
+    @SequenceGenerator(name = "clientSequence", sequenceName = "client_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "clientSequence")
+    @Column(name = "id")
     private Long id;
-    @Column(name="chat_id")
+    @Column(name = "chat_id")
     private Long chatId;
-    @Column(name="user_name")
+    @Column(name = "user_name")
     private String userName;
-    @Column(name="phone_number")
-    private String phoneNumber;
 
-    public Client(Long chatId, String userName, String phoneNumber) {
+
+    public Client(Long chatId, String userName) {
         this.chatId = chatId;
         this.userName = userName;
-        this.phoneNumber = phoneNumber;
     }
 
     public Client() {
@@ -29,14 +27,6 @@ public class Client {
 
     public Long getId() {
         return id;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public Long getChatId() {
@@ -60,12 +50,12 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return Objects.equals(id, client.id) && Objects.equals(chatId, client.chatId) && Objects.equals(userName, client.userName) && Objects.equals(phoneNumber, client.phoneNumber);
+        return Objects.equals(id, client.id) && Objects.equals(chatId, client.chatId) && Objects.equals(userName, client.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, chatId, userName, phoneNumber);
+        return Objects.hash(id, chatId, userName);
     }
 
     @Override
@@ -74,12 +64,11 @@ public class Client {
                 "id=" + id +
                 ", chatId=" + chatId +
                 ", userName='" + userName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", shelter=" + shelter +
                 '}';
     }
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 

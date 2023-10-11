@@ -15,6 +15,4 @@ public interface ClientService {
 
     Collection<Client> getClientByChatID(Long chatId);
 
-    Collection<Client> getClientsWithPhoneNuber();
-
 }

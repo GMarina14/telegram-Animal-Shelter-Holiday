@@ -1,5 +1,7 @@
 package com.example.telegramanimalshelterholiday;
 
+import com.pengrad.telegrambot.impl.TelegramBotClient;
+import com.pengrad.telegrambot.model.WebhookInfo;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
