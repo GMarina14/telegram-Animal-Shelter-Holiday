@@ -9,7 +9,21 @@ public enum Icon {
     NOT(":x:"),
     DOUBT(":zzz:"),
     CAT(":cat2:"),
-    FLAG(":checkered_flag:");
+    DOG(":dog2:"),
+    FLAG(":checkered_flag:"),
+    HOUSE(":house_buildings:"),
+    REPORT(":page_facing_up:"),
+    VOLUNTEER(":man:"),
+    WARNING(":warning:"),
+    CAR (":red_car:"),
+    PHONE(":telephone:"),
+    SAMPLE (":page_with_curl:"),
+    SPARKLES(":sparkles:"),
+    TRANSPORT(":oncoming_taxi:"),
+    REJECTION(":no_entry_sign:"),
+
+    INFO(":information_source:");
+
     private String value;
     Icon(String value) {
         this.value = value;
