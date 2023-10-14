@@ -1,6 +1,8 @@
 package com.example.telegramanimalshelterholiday.controller;
 
+import com.example.telegramanimalshelterholiday.model.Adopter;
 import com.example.telegramanimalshelterholiday.model.Animal;
+import com.example.telegramanimalshelterholiday.model.Contract;
 import com.example.telegramanimalshelterholiday.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -125,6 +129,5 @@ public class AnimalController {
         animalService.remove(id);
         return ResponseEntity.ok().build();
     }
-
 
 }

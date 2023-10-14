@@ -1,7 +1,9 @@
 package com.example.telegramanimalshelterholiday.controller;
 
 import com.example.telegramanimalshelterholiday.model.Animal;
+import com.example.telegramanimalshelterholiday.model.Client;
 import com.example.telegramanimalshelterholiday.model.Shelter;
+import com.example.telegramanimalshelterholiday.model.Volunteer;
 import com.example.telegramanimalshelterholiday.service.ShelterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -109,6 +111,7 @@ public class ShelterController {
         }
         return ResponseEntity.ok(shelter);
     }
+
     @Operation(summary = "Поиск всех животных находящихся в приюте ,по id приюта ",
             responses = {
                     @ApiResponse(
@@ -131,12 +134,73 @@ public class ShelterController {
             tags = "Работа с приютом"
     )
     @GetMapping("/{id}/animal")
-    public ResponseEntity<List<Animal>>getAnimalByShelter(@PathVariable Long id) {
+    public ResponseEntity<List<Animal>> getAnimalByShelter(@PathVariable Long id) {
         List<Animal> allAnimal = shelterService.getAllAnimal(id);
         if (isNull(allAnimal)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(allAnimal);
     }
+
+    @Operation(summary = "Поиск всех волонтеров работающих в приюте ,по id приюта ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Найдены волонтеры в данном приюте",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Волонтеры не найдены",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    )
+            },
+            tags = "Работа с приютом"
+    )
+    @GetMapping("/{id}/volunteer")
+    public ResponseEntity<List<Volunteer>> getVolunteerByShelter(@PathVariable Long id) {
+        List<Volunteer> allVolunteer = shelterService.getAllVolunteer(id);
+        if (isNull(allVolunteer)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allVolunteer);
+    }
+
+    @Operation(summary = "Поиск всех клиентов обратившихся в приют ,по id приюта ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Найдены клиенты данного приюта",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Клиенты не найдены",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    )
+            },
+            tags = "Работа с приютом"
+    )
+    @GetMapping("/{id}/client")
+    public ResponseEntity<List<Client>>getClientByShelter(@PathVariable Long id) {
+        List<Client> allClient = shelterService.getAllClient(id);
+        if (isNull(allClient)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allClient);
+    }
+
 
 }

@@ -40,7 +40,6 @@ public class Shelter {
     @Column(name = "city")
     private String city;
 
-
     @Column(name = "address")
     private String address;
 
