@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ClientService {
 
-    void addClient (Client client);
+    Client addClient (Client client);
 
     void removeClient (Long id);
 

@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface ContractService {
 
-    void addContract(Contract contract);
+    Contract addContract(Contract contract);
 
     void removeContract (Long id);
 

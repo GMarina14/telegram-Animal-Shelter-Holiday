@@ -39,9 +39,10 @@ public class ClientController {
             },
             tags = "Пользователь"
     )
-    @PostMapping("/add")
-    public void addNewClient(@Parameter(description = "объект клиента") @RequestBody Client client) {
-        clientService.addClient(client);
+    @PostMapping()
+    public Client addNewClient(@Parameter(description = "объект клиента") @RequestBody Client client) {
+        return clientService.addClient(client);
+
     }
 
 
@@ -85,8 +86,8 @@ public class ClientController {
             },
             tags = "Пользователь"
     )
-    @DeleteMapping("/remove-client-by-id")
-    public void removeClientById(@Parameter(description = "id клиента") Long id) {
+    @DeleteMapping("/remove/{id}")
+    public void removeClientById(@Parameter(description = "id клиента") @PathVariable Long id) {
         clientService.removeClient(id);
     }
 }
