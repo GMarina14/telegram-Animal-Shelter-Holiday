@@ -16,8 +16,9 @@ public class AdopterServiceImpl implements AdopterService {
     }
 
     @Override
-    public void addNewAdopter(Adopter adopter) {
-        adopterRepository.save(adopter);
+    public Adopter addNewAdopter(Adopter adopter) {
+        return adopterRepository.save(adopter);
+
     }
 
     @Override

@@ -30,15 +30,16 @@ public class ContractController {
                             description = "контракт добавлен",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                   schema = @Schema(implementation = Contract.class)
+                                    schema = @Schema(implementation = Contract.class)
                             )
                     )
             },
             tags = "Контракт"
     )
-    @PostMapping("/add")
-    public void addNewContract (@Parameter(description = "Объект контракта") Contract contract) {
-        contractService.addContract(contract);
+    @PostMapping()
+    public Contract addNewContract(@Parameter(description = "Объект контракта") Contract contract) {
+        return contractService.addContract(contract);
+
     }
 
     @Operation(
@@ -56,7 +57,7 @@ public class ContractController {
             tags = "Контракт"
     )
     @GetMapping("/get-all-contracts")
-    public Collection<Contract> getAllContracts () {
+    public Collection<Contract> getAllContracts() {
         return contractService.getAllContracts();
     }
 

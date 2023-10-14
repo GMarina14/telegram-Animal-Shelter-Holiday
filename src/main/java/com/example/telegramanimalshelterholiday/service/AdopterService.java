@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface AdopterService {
 
-    void addNewAdopter (Adopter adopter);
+    Adopter addNewAdopter (Adopter adopter);
 
     Collection<Adopter> getAllAdopters();
 

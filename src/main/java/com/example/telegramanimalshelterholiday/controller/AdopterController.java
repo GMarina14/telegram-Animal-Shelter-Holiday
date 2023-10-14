@@ -37,9 +37,10 @@ public class AdopterController {
             },
             tags = "Усыновители"
     )
-    @PostMapping("/add-new-adopter")
-    public void addNewAdopter(@Parameter(description = "Объект усыновителя") @RequestBody Adopter adopter) {
-        adopterService.addNewAdopter(adopter);
+    @PostMapping()
+    public Adopter addNewAdopter(@Parameter(description = "Объект усыновителя") @RequestBody Adopter adopter) {
+        return adopterService.addNewAdopter(adopter);
+
     }
 
     @Operation(
@@ -80,8 +81,8 @@ public class AdopterController {
             },
             tags = "Усыновители"
     )
-    @DeleteMapping("/delete-adopter")
-    public void removeAdopterById(@Parameter(description = "id усыновителя") Long id) {
+    @DeleteMapping("/{id}")
+    public void removeAdopterById(@Parameter(description = "id усыновителя") @PathVariable Long id) {
         adopterService.removeAdopterById(id);
     }
 }
