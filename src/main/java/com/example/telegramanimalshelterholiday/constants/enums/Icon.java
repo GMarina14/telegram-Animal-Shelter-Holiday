@@ -21,6 +21,8 @@ public enum Icon {
     SPARKLES(":sparkles:"),
     TRANSPORT(":oncoming_taxi:"),
     REJECTION(":no_entry_sign:"),
+    KITTY_CAT(":cat:"),
+    PUPPY_DOG(":dog:"),
 
     INFO(":information_source:");
 
