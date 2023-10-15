@@ -1,7 +1,6 @@
 package com.example.telegramanimalshelterholiday.controller;
 
 import com.example.telegramanimalshelterholiday.model.Client;
-import com.example.telegramanimalshelterholiday.model.Report;
 import com.example.telegramanimalshelterholiday.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/client")
@@ -45,7 +45,25 @@ public class ClientController {
 
     }
 
+    @Operation(
+            summary = "Внесение изменений в пользователя ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "пользователь успешно изменен",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Client.class)
+                            )
+                    )
+            },
+            tags = "Пользователь"
+    )
+    @PutMapping()
+    public Client update(@Parameter(description = "обновленный клиент") @RequestBody Client client) {
+        return clientService.update(client);
 
+    }
 
     @Operation(
             summary = "Получение списка пользователей ",
@@ -66,12 +84,45 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
-
-    /*@GetMapping("/get-client-by-chat-id")
-    public Collection<Client> getClientsByChatID(Long chatId) {
-        return clientService.getClientByChatID(chatId);
+    @Operation(
+            summary = "Получение пользователя по chatId",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "пользователь найден",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema (schema = @Schema(implementation = Client.class))
+                            )
+                    )
+            },
+            tags = "Пользователь"
+    )
+    @GetMapping("/get-by-chat-id/{chatId}")
+    public Client getClientsByChatId(@PathVariable Long chatId) {
+        return clientService.getClientByChatId(chatId);
     }
-*/
+
+
+    @Operation(
+            summary = "Получение пользователя по id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "пользователь найден",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema (schema = @Schema(implementation = Client.class))
+                            )
+                    )
+            },
+            tags = "Пользователь"
+    )
+    @GetMapping("/get-by-id/{id}")
+    public Optional<Client> getClientsById(@PathVariable Long id) {
+        return clientService.getClientById(id);
+    }
+
     @Operation(
             summary = "Удаление пользователя ",
             responses = {

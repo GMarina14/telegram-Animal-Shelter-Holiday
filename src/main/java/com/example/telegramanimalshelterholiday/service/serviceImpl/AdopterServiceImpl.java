@@ -6,6 +6,7 @@ import com.example.telegramanimalshelterholiday.service.AdopterService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class AdopterServiceImpl implements AdopterService {
@@ -27,8 +28,14 @@ public class AdopterServiceImpl implements AdopterService {
     }
 
     @Override
-    public Adopter getAdopterByPhoneNumber(String phoneNumber) {
-        return null;
+    public Adopter update(Adopter adopter) {
+        return adopterRepository.save(adopter);
+
+    }
+
+    @Override
+    public Optional<Adopter> getById(Long id) {
+        return adopterRepository.findById(id);
     }
 
     @Override

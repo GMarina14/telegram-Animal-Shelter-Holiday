@@ -3,6 +3,7 @@ package com.example.telegramanimalshelterholiday.service;
 import com.example.telegramanimalshelterholiday.model.Adopter;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface AdopterService {
 
@@ -10,7 +11,10 @@ public interface AdopterService {
 
     Collection<Adopter> getAllAdopters();
 
-    Adopter getAdopterByPhoneNumber(String phoneNumber);
+    Adopter update(Adopter adopter);
+
+    Optional<Adopter> getById(Long id);
+
 
     void removeAdopterById(Long id);
 }
