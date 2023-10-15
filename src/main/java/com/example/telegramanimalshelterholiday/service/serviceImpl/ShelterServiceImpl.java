@@ -2,10 +2,11 @@ package com.example.telegramanimalshelterholiday.service.serviceImpl;
 
 import com.example.telegramanimalshelterholiday.exception.NotFoundConfigException;
 import com.example.telegramanimalshelterholiday.model.Animal;
+import com.example.telegramanimalshelterholiday.model.Client;
 import com.example.telegramanimalshelterholiday.model.Shelter;
+import com.example.telegramanimalshelterholiday.model.Volunteer;
 import com.example.telegramanimalshelterholiday.repository.ShelterRepository;
 import com.example.telegramanimalshelterholiday.service.ShelterService;
-import com.example.telegramanimalshelterholiday.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,5 +49,21 @@ public class ShelterServiceImpl implements ShelterService {
         return shelterRepository.findById(id).get().getAnimalList();
     }
 
+    /**
+     * Метод возращает всех волонтеров хранящихся в базе данных приюта
+     */
+    @Override
+    public List<Volunteer> getAllVolunteer(long id) {
+        logger.debug("Calling method getAllVolunteer");
+        return shelterRepository.findById(id).get().getVolunteerList();
+    }
 
+    /**
+     * Метод возращает всех клиентов хранящихся в базе данных приюта
+     */
+    @Override
+    public List<Client> getAllClient(long id) {
+        logger.debug("Calling method getAllClient");
+        return shelterRepository.findById(id).get().getClientsList();
+    }
 }

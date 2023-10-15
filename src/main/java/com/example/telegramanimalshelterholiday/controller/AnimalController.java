@@ -1,6 +1,9 @@
 package com.example.telegramanimalshelterholiday.controller;
 
+import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
+import com.example.telegramanimalshelterholiday.model.Adopter;
 import com.example.telegramanimalshelterholiday.model.Animal;
+import com.example.telegramanimalshelterholiday.model.Contract;
 import com.example.telegramanimalshelterholiday.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -125,6 +130,34 @@ public class AnimalController {
         animalService.remove(id);
         return ResponseEntity.ok().build();
     }
-
+    @Operation(summary = "Поиск всех кошек или собак в питомнике ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Найдены питомецы с параметрами",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Animal.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Питомецы не найдены",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Animal.class)
+                            )
+                    )
+            },
+            tags = "Работа с питомцем"
+    )
+    @GetMapping("/pets-species")
+    public ResponseEntity<List<Animal>> getAnimalByPetsSpecies(@RequestParam PetsSpecies petsSpecies) {
+        List<Animal> animalList = animalService.getAnimalByPetsSpecies(petsSpecies);
+        if (isNull(animalList)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(animalList);
+    }
 
 }

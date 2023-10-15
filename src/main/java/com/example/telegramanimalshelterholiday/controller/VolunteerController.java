@@ -1,5 +1,8 @@
 package com.example.telegramanimalshelterholiday.controller;
 
+import com.example.telegramanimalshelterholiday.model.Adopter;
+import com.example.telegramanimalshelterholiday.model.Client;
+import com.example.telegramanimalshelterholiday.model.Shelter;
 import com.example.telegramanimalshelterholiday.model.Volunteer;
 import com.example.telegramanimalshelterholiday.service.VolunteerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -127,6 +132,36 @@ public class VolunteerController {
     public ResponseEntity<Void> remove(@PathVariable Long id) {
         volunteerService.remove(id);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Поиск всех усыновителей обратившихся к волонтеру ,поиск по id волонтера ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Найдены усыновители данного волонтера",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Усыновители не найдены",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Shelter.class)
+                            )
+                    )
+            },
+            tags = "Работа с волонтером"
+    )
+    @GetMapping("/{id}/adopter")
+    public ResponseEntity<List<Adopter>> getClientByShelter(@PathVariable Long id) {
+        List<Adopter> allAdopter = volunteerService.getAllAdopter(id);
+        if (isNull(allAdopter)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allAdopter);
     }
 
 
