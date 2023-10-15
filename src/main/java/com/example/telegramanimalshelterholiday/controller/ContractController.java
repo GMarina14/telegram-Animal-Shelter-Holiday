@@ -43,6 +43,27 @@ public class ContractController {
     }
 
     @Operation(
+            summary = "Изменение контракта ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "контракт изменен",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Contract.class)
+                            )
+                    )
+            },
+            tags = "Контракт"
+    )
+    @PutMapping()
+    public Contract updateContract(@Parameter(description = "Объект контракта") Contract contract) {
+        return contractService.update(contract);
+
+    }
+
+
+    @Operation(
             summary = "Получение списка контрактов ",
             responses = {
                     @ApiResponse(
@@ -59,6 +80,26 @@ public class ContractController {
     @GetMapping("/get-all-contracts")
     public Collection<Contract> getAllContracts() {
         return contractService.getAllContracts();
+    }
+
+
+    @Operation(
+            summary = "Контракт найден ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "получен контракт",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = Contract.class))
+                            )
+                    )
+            },
+            tags = "Контракт"
+    )
+    @GetMapping("/get-contract-by-id/{id}")
+    public Contract getContractById(@PathVariable Long id) {
+        return contractService.getById(id);
     }
 
     @Operation(

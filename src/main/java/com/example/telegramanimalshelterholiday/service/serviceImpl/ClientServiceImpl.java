@@ -6,6 +6,7 @@ import com.example.telegramanimalshelterholiday.service.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -32,7 +33,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Collection<Client> getClientByChatID(Long chatId) {
+    public Client getClientByChatId(Long chatId) {
         return clientRepository.findByChatId(chatId);
+    }
+
+    @Override
+    public Optional<Client> getClientById(Long id) {
+        return clientRepository.findById(id);
+    }
+
+    @Override
+    public Client update(Client client) {
+        return clientRepository.save(client);
     }
 }

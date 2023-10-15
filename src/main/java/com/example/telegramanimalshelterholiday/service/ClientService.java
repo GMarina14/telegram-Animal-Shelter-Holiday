@@ -13,6 +13,10 @@ public interface ClientService {
 
     Collection<Client> getAllClients();
 
-    Collection<Client> getClientByChatID(Long chatId);
+    Client getClientByChatId(Long chatId);
+
+    Optional<Client> getClientById(Long id);
+
+    Client update(Client client);
 
 }

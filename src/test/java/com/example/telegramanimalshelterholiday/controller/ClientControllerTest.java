@@ -1,6 +1,8 @@
 package com.example.telegramanimalshelterholiday.controller;
 
+import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.model.Client;
+import com.example.telegramanimalshelterholiday.model.Shelter;
 import com.example.telegramanimalshelterholiday.repository.ClientRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +42,24 @@ public class ClientControllerTest {
         //when
         ResponseEntity<Client> response = restTemplate.postForEntity("/client", expected, Client.class);
 
+        //then
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(response.getBody()).isNotNull();
+
+        Client actual = response.getBody();
+        Assertions.assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
+
+    }
+
+    @Test
+    void shouldUpdateClient() {
+        //given
+        Client client = new Client(33L, "Ivanov");
+        createClientAndSaveInBd(client);
+        Client expected = new Client(33L, "Ivanov");
+
+        //when
+        ResponseEntity<Client> response = restTemplate.exchange("/client", HttpMethod.PUT, new HttpEntity<>(expected), Client.class);
         //then
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(response.getBody()).isNotNull();
@@ -91,6 +112,27 @@ public class ClientControllerTest {
         //then
         Assertions.assertThat(clientRepository.findById(clientId).isEmpty());
 
+    }
+
+    @Test
+    void shouldGetClientById() {
+        Client newClient1 = new Client(33L, "Ivanov1");
+        Long id = createClientAndSaveInBd(newClient1).getId();
+        ResponseEntity<Client> response = restTemplate.getForEntity("/client/get-by-id/{id}", Client.class, id);
+        Client actual = response.getBody();
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(actual.getId()).isEqualTo(id);
+    }
+
+    @Test
+    void shouldGetClientByChatId() {
+        Client newClient1 = new Client(33L, "Ivanov1");
+        createClientAndSaveInBd(newClient1).getChatId();
+        Long chatId = 33L;
+        ResponseEntity<Client> response = restTemplate.getForEntity("/client//get-by-chat-id/{chatId}", Client.class, chatId);
+        Client actual = response.getBody();
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(actual.getChatId()).isEqualTo(chatId);
     }
 
     private Client createClientAndSaveInBd(Client client) {

@@ -30,4 +30,14 @@ public class ContractServiceImpl implements ContractService {
     public Collection<Contract> getAllContracts() {
         return contractRepository.getAll();
     }
+
+    @Override
+    public Contract getById(Long id) {
+        return contractRepository.findByid(id);
+    }
+
+    @Override
+    public Contract update(Contract contract) {
+        return contractRepository.save(contract);
+    }
 }
