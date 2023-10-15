@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.controller;
 
+import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.model.Adopter;
 import com.example.telegramanimalshelterholiday.model.Animal;
 import com.example.telegramanimalshelterholiday.model.Contract;
@@ -128,6 +129,35 @@ public class AnimalController {
     public ResponseEntity<Void> remove(@PathVariable Long id) {
         animalService.remove(id);
         return ResponseEntity.ok().build();
+    }
+    @Operation(summary = "Поиск всех кошек или собак в питомнике ",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Найдены питомецы с параметрами",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Animal.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Питомецы не найдены",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Animal.class)
+                            )
+                    )
+            },
+            tags = "Работа с питомцем"
+    )
+    @GetMapping("/pets-species")
+    public ResponseEntity<List<Animal>> getAnimalByPetsSpecies(@RequestParam PetsSpecies petsSpecies) {
+        List<Animal> animalList = animalService.getAnimalByPetsSpecies(petsSpecies);
+        if (isNull(animalList)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(animalList);
     }
 
 }
