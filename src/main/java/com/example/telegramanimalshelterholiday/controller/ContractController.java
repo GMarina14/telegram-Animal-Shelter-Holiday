@@ -37,7 +37,7 @@ public class ContractController {
             tags = "Контракт"
     )
     @PostMapping()
-    public Contract addNewContract(@Parameter(description = "Объект контракта") Contract contract) {
+    public Contract addNewContract(@Parameter(description = "Объект контракта") @RequestBody Contract contract) {
         return contractService.addContract(contract);
 
     }
@@ -57,7 +57,7 @@ public class ContractController {
             tags = "Контракт"
     )
     @PutMapping()
-    public Contract updateContract(@Parameter(description = "Объект контракта") Contract contract) {
+    public Contract updateContract(@Parameter(description = "Объект контракта") @RequestBody Contract contract) {
         return contractService.update(contract);
 
     }
@@ -116,8 +116,8 @@ public class ContractController {
             },
             tags = "Контракт"
     )
-    @DeleteMapping("/delete-contract")
-    public void removeContractById(@Parameter(description = "id контракта") Long id) {
+    @DeleteMapping("/delete-contract/{id}")
+    public void removeContractById(@Parameter(description = "id контракта") @PathVariable Long id) {
         contractService.removeContract(id);
     }
 
