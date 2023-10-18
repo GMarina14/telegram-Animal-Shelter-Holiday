@@ -23,7 +23,7 @@ import java.util.List;
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_INFO;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_TEXT;
-import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.CAT_SHELTER;
+import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
 import static java.util.Objects.isNull;
 
@@ -59,6 +59,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 logger.info("Processing update: {}", update);
                 String text = update.message().text();
                 Long chatId = update.message().chat().id();
+
+
                 if (!isNull(update.message()) && text.contains("/start")) {
                     SendMessage message = new SendMessage(chatId, MESSAGE_TEXT);
                     telegramBot.execute(message);
@@ -66,30 +68,38 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
               /*  } else if(update.message() != null){
                 //  sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
 */
-                }else{
+                } else {
 
-                    //     telegramBot.execute(sendInlineKeyBoardMessage(chatId));
-                    //  telegramBot.execute(secondMenuInlineKeyBoardMessage(chatId));
-                    //   telegramBot.execute(thirdMenuInlineKeyBoardMessage(chatId));
-
-                   //    sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
-                   //  sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
-                    // sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
-
-                   // sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
-
-                    sendMessage(chatId, petSpecificMenuButtons(chatId), HEALTH_MENU);
+                    sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
 
                     processButtonClick(update);
 
-                  //   sendMessage(chatId, fifthMenuButtons(chatId),FIFTH_MENU);
+
+                  //  if (update.callbackQuery() != null) {
+
+                        //     telegramBot.execute(sendInlineKeyBoardMessage(chatId));
+                        //  telegramBot.execute(secondMenuInlineKeyBoardMessage(chatId));
+                        //   telegramBot.execute(thirdMenuInlineKeyBoardMessage(chatId));
+
+                        //    sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                        //  sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
+                        // sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
+                        //  sendMessage(chatId, petSpecificMenuButtons(chatId), HEALTH_MENU);
+                        // sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
+                  /*  if(update.callbackQuery()!=null){
+                        update.callbackQuery().data();
+                    }
+*/
+                        //   sendMessage(chatId, fifthMenuButtons(chatId),FIFTH_MENU);
 
 
-                    // telegramBot.execute(fourthMenuInlineKeyBoardMessage(chatId));
-                    // telegramBot.execute(fifthMenuInlineKeyBoardMessage(chatId));
+                        // telegramBot.execute(fourthMenuInlineKeyBoardMessage(chatId));
+                        // telegramBot.execute(fifthMenuInlineKeyBoardMessage(chatId));
 
 
+                //    }
                 }
+
             });
         } catch (Exception e) {
             logger.error("Error while entering a message", e);
@@ -128,12 +138,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             long chatId = callbackQuery.message().chat().id();
           switch (callbackQuery.data()) {
               case CAT_SHELTER:
-              //    sendMessage(chatId,"HEY");
+               sendMessage(chatId,"Cat shelter pressed");
+                  sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                  break;
 
+              case  DOG_SHELTER:
+                  sendMessage(chatId,"Dog shelter pressed");
+                  sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                  break;
+
+              case ALL_ABOUT_SHELTER:
+                  sendMessage(chatId,"All about shelter pressed");
+                  sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                   break;
 
               default:
-             //     sendMessage(chatId,"No");
+                 sendMessage(chatId,"No");
 
 
 
