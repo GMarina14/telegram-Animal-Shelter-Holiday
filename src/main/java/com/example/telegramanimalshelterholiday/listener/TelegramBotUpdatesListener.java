@@ -2,6 +2,9 @@ package com.example.telegramanimalshelterholiday.listener;
 
 import com.example.telegramanimalshelterholiday.constants.enums.Icon;
 import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
+import com.example.telegramanimalshelterholiday.model.Client;
+import com.example.telegramanimalshelterholiday.repository.ClientRepository;
+import com.example.telegramanimalshelterholiday.service.ClientService;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
@@ -35,8 +39,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final TelegramBot telegramBot;
 
+    private final ClientRepository clientRepository;
 
-
+    private final MessageService messageService;
 
 
     @PostConstruct
@@ -54,7 +59,21 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     @Override
     public int process(List<Update> updates) {
-        try {
+        updates.forEach(update -> {
+            logger.info("Processing update: {}", update);
+
+            if (update.message() != null) {
+                firstMessage(update);
+
+            } else if(update.callbackQuery()!=null){
+
+                processButtonClick(update);
+
+            }
+        });
+
+
+     /*   try {
             updates.forEach(update -> {
                 logger.info("Processing update: {}", update);
                 String text = update.message().text();
@@ -65,17 +84,19 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     SendMessage message = new SendMessage(chatId, MESSAGE_TEXT);
                     telegramBot.execute(message);
 
-              /*  } else if(update.message() != null){
+                    sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+              *//*  } else if(update.message() != null){
+
                 //  sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-*/
+*//*
                 } else {
 
-                    sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
 
-                    processButtonClick(update);
+                    if (update.callbackQuery() != null) {
+                        processButtonClick(update);
 
 
-                  //  if (update.callbackQuery() != null) {
+                        //  if (update.callbackQuery() != null) {
 
                         //     telegramBot.execute(sendInlineKeyBoardMessage(chatId));
                         //  telegramBot.execute(secondMenuInlineKeyBoardMessage(chatId));
@@ -86,10 +107,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         // sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
                         //  sendMessage(chatId, petSpecificMenuButtons(chatId), HEALTH_MENU);
                         // sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
-                  /*  if(update.callbackQuery()!=null){
+                  *//*  if(update.callbackQuery()!=null){
                         update.callbackQuery().data();
                     }
-*/
+*//*
                         //   sendMessage(chatId, fifthMenuButtons(chatId),FIFTH_MENU);
 
 
@@ -97,38 +118,36 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         // telegramBot.execute(fifthMenuInlineKeyBoardMessage(chatId));
 
 
-                //    }
+                        //    }
+                    }
                 }
 
             });
         } catch (Exception e) {
             logger.error("Error while entering a message", e);
-        }
+        }*/
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    public void sendMessage(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String heading) {
-        SendMessage message = new SendMessage(chatId, heading);
-        message.replyMarkup(inlineKeyboardMarkup);
-        SendResponse response = telegramBot.execute(message);
-        if (!isNull(response) && !response.isOk()) {
-            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
-        }
-    }
-    public void sendMessage(long chatId, String string){
-        SendMessage message = new SendMessage(chatId,string);
-        // message.replyMarkup(inlineKeyboardMarkup);
-        SendResponse response = telegramBot.execute(message);
-        if (!isNull(response) && !response.isOk()) {
-            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
-        }
-    }
+    private void firstMessage(Update update) {
+        String text = update.message().text();
+        Long chatId = update.message().chat().id();
+    /*  Collection<Client> client =  clientRepository.findByChatId(chatId);
+      if (client.isEmpty())
+          clientRepository*/
 
-
+        if (text.contains("/start"))
+            messageService.sendMessage(chatId, MESSAGE_TEXT);
+        else if (text == null) {
+            return;
+        }
+        messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+    }
 
 
     /**
      * Process user's buttons clicks in bot. This method doesn't process anything but button clicks
+     *
      * @param update
      * @see com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons
      */
@@ -136,36 +155,29 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         CallbackQuery callbackQuery = update.callbackQuery();
         if (callbackQuery != null) {
             long chatId = callbackQuery.message().chat().id();
-          switch (callbackQuery.data()) {
-              case CAT_SHELTER:
-               sendMessage(chatId,"Cat shelter pressed");
-                  sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
-                  break;
+            switch (callbackQuery.data()) {
+                case CAT_SHELTER:
+                    messageService.sendMessage(chatId, "Cat shelter pressed");
+                    messageService. sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                    break;
 
-              case  DOG_SHELTER:
-                  sendMessage(chatId,"Dog shelter pressed");
-                  sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
-                  break;
+                case DOG_SHELTER:
+                    messageService.sendMessage(chatId, "Dog shelter pressed");
+                    messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                    break;
 
-              case ALL_ABOUT_SHELTER:
-                  sendMessage(chatId,"All about shelter pressed");
-                  sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
-                  break;
+                case ALL_ABOUT_SHELTER:
+                    messageService.sendMessage(chatId, "All about shelter pressed");
+                    messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
+                    break;
 
-              default:
-                 sendMessage(chatId,"No");
-
-
+                default:
+                    messageService.sendMessage(chatId, "No");
 
 
-          }
+            }
         }
     }
-
-
-
-
-
 
 
     /**
