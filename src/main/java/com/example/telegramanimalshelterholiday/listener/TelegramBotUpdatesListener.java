@@ -41,6 +41,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final ClientRepository clientRepository;
 
+    private final MessageService messageService;
+
 
     @PostConstruct
     public void init() {
@@ -59,13 +61,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            String text = update.message().text();
-            Long chatId = update.message().chat().id();
 
             if (update.message() != null) {
                 firstMessage(update);
 
-            } else {
+            } else if(update.callbackQuery()!=null){
+
                 processButtonClick(update);
 
             }
@@ -136,29 +137,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
           clientRepository*/
 
         if (text.contains("/start"))
-            sendMessage(chatId, MESSAGE_TEXT);
+            messageService.sendMessage(chatId, MESSAGE_TEXT);
         else if (text == null) {
             return;
         }
-        sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-    }
-
-    public void sendMessage(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String heading) {
-        SendMessage message = new SendMessage(chatId, heading);
-        message.replyMarkup(inlineKeyboardMarkup);
-        SendResponse response = telegramBot.execute(message);
-        if (!isNull(response) && !response.isOk()) {
-            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
-        }
-    }
-
-    public void sendMessage(long chatId, String string) {
-        SendMessage message = new SendMessage(chatId, string);
-        // message.replyMarkup(inlineKeyboardMarkup);
-        SendResponse response = telegramBot.execute(message);
-        if (!isNull(response) && !response.isOk()) {
-            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
-        }
+        messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
     }
 
 
@@ -174,22 +157,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             long chatId = callbackQuery.message().chat().id();
             switch (callbackQuery.data()) {
                 case CAT_SHELTER:
-                    sendMessage(chatId, "Cat shelter pressed");
-                    sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                    messageService.sendMessage(chatId, "Cat shelter pressed");
+                    messageService. sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case DOG_SHELTER:
-                    sendMessage(chatId, "Dog shelter pressed");
-                    sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                    messageService.sendMessage(chatId, "Dog shelter pressed");
+                    messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case ALL_ABOUT_SHELTER:
-                    sendMessage(chatId, "All about shelter pressed");
-                    sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
+                    messageService.sendMessage(chatId, "All about shelter pressed");
+                    messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
 
                 default:
-                    sendMessage(chatId, "No");
+                    messageService.sendMessage(chatId, "No");
 
 
             }

@@ -25,7 +25,23 @@ public class MessageService {
     }
 
 
+    public void sendMessage(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String heading) {
+        SendMessage message = new SendMessage(chatId, heading);
+        message.replyMarkup(inlineKeyboardMarkup);
+        SendResponse response = telegramBot.execute(message);
+        if (!isNull(response) && !response.isOk()) {
+            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
+        }
+    }
 
+    public void sendMessage(long chatId, String string) {
+        SendMessage message = new SendMessage(chatId, string);
+        // message.replyMarkup(inlineKeyboardMarkup);
+        SendResponse response = telegramBot.execute(message);
+        if (!isNull(response) && !response.isOk()) {
+            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
+        }
+    }
 
 
 
