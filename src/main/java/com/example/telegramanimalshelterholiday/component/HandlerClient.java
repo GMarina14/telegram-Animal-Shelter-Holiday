@@ -23,11 +23,11 @@ public class HandlerClient {
         Long chatId = update.message().chat().id();
         Client client = clientRepository.findByChatId(chatId);
         if (client == null) {
-            client = new Client(chatId,username);
+            client = new Client(chatId, username);
         } else {
             return;
         }
-       client=clientRepository.save(client);
+        clientRepository.save(client);
     }
 
 }

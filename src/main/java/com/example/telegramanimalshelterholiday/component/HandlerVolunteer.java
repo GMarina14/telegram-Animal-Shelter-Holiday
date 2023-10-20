@@ -1,6 +1,8 @@
 package com.example.telegramanimalshelterholiday.component;
 
+import com.example.telegramanimalshelterholiday.exception.NotFoundConfigException;
 import com.example.telegramanimalshelterholiday.model.Volunteer;
+import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.example.telegramanimalshelterholiday.service.VolunteerService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
@@ -20,30 +22,32 @@ public class HandlerVolunteer {
     private static final Logger logger = LoggerFactory.getLogger(HandlerVolunteer.class);
     private final TelegramBot telegramBot;
     private final VolunteerService volunteerService;
+    private final MessageService messageService;
 
-    public void callVolunteer(Update update) {
-        String userId = ""; // client's chat_id or username
-        userId = userId + update.message().from().id();
-        long chatId = 0; // volunteer's chat_id
+    /**
+     *
+     * @param update
+     * @param chatIdC
+     */
+    public void callVolunteer(Update update, long chatIdC) {
+        //String userId = ""; // client's chat_id or username
+        // userId = userId + update.message().from().id();
+        long userId = chatIdC; // user's chat_id
         logger.info("UserId = {}", userId);
-        Volunteer randomVolunteer = volunteerService.getRandomVolunteer();
-        if (isNull(randomVolunteer)) {
-            // Client chat_id. Send message to the client.
-            chatId = Long.parseLong(userId);
-            SendMessage message = new SendMessage(chatId, NO_VOLUNTEERS);
-            sendMessage(message);
-        } else {
-            // Volunteer chat_id. Send message to volunteer.
-            chatId = randomVolunteer.getChatId();
-            if (update.message().from().username() != null) {
-                userId =update.message().from().username();
-                SendMessage message = new SendMessage(chatId, String.format(CONTACT_USERNAME, userId));
-                sendMessage(message);
-            } else {
-                SendMessage message = new SendMessage(chatId, String.format(CONTACT_ID, userId));
-                sendMessage(message);
-            }
+        Volunteer randomVolunteer;
+
+        try {
+          randomVolunteer = volunteerService.getRandomVolunteer();
+        }catch (NotFoundConfigException e){
+            logger.error("Volunteer not found");
+            System.out.println(e.getMessage());
+            System.out.println("Exception was processed. Program continues");
+            messageService.sendMessage(userId, NO_VOLUNTEERS);
+            return;
         }
+            // Volunteer chat_id. Send message to volunteer.
+            messageService.sendMessage(randomVolunteer.getChatId(), String.format(CONTACT_USER, userId));
+
     }
 
     private void sendMessage(SendMessage message) {
