@@ -16,4 +16,6 @@ public interface VolunteerService {
     void remove(long id);
 
     List<Adopter> getAllAdopter(long id);
+
+    Volunteer getRandomVolunteer();
 }

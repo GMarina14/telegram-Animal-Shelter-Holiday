@@ -20,13 +20,13 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query(value = "SELECT * FROM client", nativeQuery = true)
     Collection<Client> getAll();
 
-/**
+    /**
      * Получаем клиента по chatId
-  */
+     */
 
-    @Query(value = "SELECT * FROM client WHERE chat_id = :chatId", nativeQuery = true)
-    Client findByChatId(@Param("chatId") Long chatId);
-
+//    @Query(value = "SELECT * FROM client WHERE chat_id = :chatId", nativeQuery = true)
+//    Client findByChatId(@Param("chatId") Long chatId);
+    Client findByChatId(long chatId);
 
 
 }

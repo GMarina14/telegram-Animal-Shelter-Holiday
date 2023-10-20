@@ -34,4 +34,8 @@ public class MenuButtonsConst {
     public final static String MOBILITY_PROBLEMS = "MOBILITY PROBLEMS";
     public final static String HEALTHY = "HEALTHY";
 
+    //BUTTON INFORMATION MESSAGE
+    public final static String NO_VOLUNTEERS = "На данный момент имеется нагрузка на линиюю Все волонтеры заняты. приносим извенения за данные неудобства.";
+    public final static String CONTACT_USERNAME= "Пожалуйста свяжитесь с пользователем userName %s. Ему необходима помощь.";
+    public final static String CONTACT_ID= "Пожалуйста свяжитесь с пользователем id %s. Ему необходима помощь.";
 }
