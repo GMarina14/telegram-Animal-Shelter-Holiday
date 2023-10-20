@@ -1,6 +1,7 @@
 package com.example.telegramanimalshelterholiday.listener;
 
 import com.example.telegramanimalshelterholiday.component.HandlerClient;
+import com.example.telegramanimalshelterholiday.component.HandlerVolunteer;
 import com.example.telegramanimalshelterholiday.constants.enums.Icon;
 import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.model.Client;
@@ -29,6 +30,8 @@ import java.util.List;
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_INFO;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_TEXT;
+import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelterCat.GREETING_CAT_SHELTER;
+import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelterDog.GREETING_DOG_SHELTER;
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
 import static java.util.Objects.isNull;
@@ -43,6 +46,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final MessageService messageService;
     private final HandlerClient handlerClient;
+
+    private final HandlerVolunteer handlerVolunteer;
 
 
     @PostConstruct
@@ -66,7 +71,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             if (update.message() != null) {
                 firstMessage(update);
 
-            } else if(update.callbackQuery()!=null){
+            } else if (update.callbackQuery() != null) {
 
                 processButtonClick(update);
 
@@ -130,6 +135,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+
     private void firstMessage(Update update) {
         String text = update.message().text();
         Long chatId = update.message().chat().id();
@@ -137,9 +143,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
       if (client.isEmpty())
           clientRepository*/
 
-       handlerClient.saveClient(update);//может поставить его после /start?
+        handlerClient.saveClient(update);//может поставить его после /start?
 
         if (text.contains("/start"))
+
             messageService.sendMessage(chatId, MESSAGE_TEXT);
         else if (text == null) {
             return;
@@ -160,19 +167,34 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             long chatId = callbackQuery.message().chat().id();
             switch (callbackQuery.data()) {
                 case CAT_SHELTER:
-                    messageService.sendMessage(chatId, "Cat shelter pressed");
-                    messageService. sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
+                    messageService.sendMessage(chatId, GREETING_CAT_SHELTER);
+                    messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case DOG_SHELTER:
-                    messageService.sendMessage(chatId, "Dog shelter pressed");
+                    messageService.sendMessage(chatId, GREETING_DOG_SHELTER);
                     messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case ALL_ABOUT_SHELTER:
-                    messageService.sendMessage(chatId, "All about shelter pressed");
+
+                    // check dog or cat shelter String replyText =
+                    //messageService.sendMessage(chatId, replyText);
                     messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
+
+                case ADOPTION_INFO:
+
+                    break;
+
+                case ADOPTION_REPORTS:
+
+                    break;
+
+                case CALL_VOLUNTEER:
+                    handlerVolunteer.callVolunteer(update, chatId);
+                    break;
+
 
                 default:
                     messageService.sendMessage(chatId, "No");
