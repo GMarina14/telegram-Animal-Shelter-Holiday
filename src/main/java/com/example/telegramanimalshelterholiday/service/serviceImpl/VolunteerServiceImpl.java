@@ -55,6 +55,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     /**
      * метод вызова любого(рандомного) волонтера для bot.
      */
+    @Override
     public Volunteer getRandomVolunteer() {
         return volunteerRepository.getRandomVolunteer().orElseThrow(() -> new NotFoundConfigException());
     }

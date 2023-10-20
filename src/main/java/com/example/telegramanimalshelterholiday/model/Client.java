@@ -16,7 +16,6 @@ public class Client {
     @Column(name = "user_name")
     private String userName;
 
-
     public Client(Long chatId, String userName) {
         this.chatId = chatId;
         this.userName = userName;

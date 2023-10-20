@@ -19,7 +19,7 @@ import static com.example.telegramanimalshelterholiday.constants.MenuButtonsCons
 @RequiredArgsConstructor
 public class InlineKeyBoardButtons {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessageProcessingAssistant.class);
+    private static final Logger logger = LoggerFactory.getLogger(InlineKeyBoardButtons.class);
     private final TelegramBot telegramBot;
 
     /**

@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.listener;
 
+import com.example.telegramanimalshelterholiday.component.HandlerClient;
 import com.example.telegramanimalshelterholiday.constants.enums.Icon;
 import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.model.Client;
@@ -15,6 +16,7 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +41,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final TelegramBot telegramBot;
 
-    private final ClientRepository clientRepository;
-
     private final MessageService messageService;
+    private final HandlerClient handlerClient;
 
 
     @PostConstruct
@@ -135,6 +136,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     /*  Collection<Client> client =  clientRepository.findByChatId(chatId);
       if (client.isEmpty())
           clientRepository*/
+
+       handlerClient.saveClient(update);//может поставить его после /start?
 
         if (text.contains("/start"))
             messageService.sendMessage(chatId, MESSAGE_TEXT);
