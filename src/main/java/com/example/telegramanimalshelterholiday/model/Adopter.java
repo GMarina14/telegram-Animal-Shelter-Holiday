@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode
 public class Adopter {
     @Id
     @SequenceGenerator(name = "adopterSequence", sequenceName = "adopter_sequence", allocationSize = 1, initialValue = 1)
@@ -25,15 +26,19 @@ public class Adopter {
 
     @Column(name = "chat_id")
     private Long chatId;
-    @Column(name="phone_number")
+
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "phone_number")
     private String phoneNumber;
 
 
-    public Adopter(String firstName, String lastName, Integer probExtend, Long chatId, String phoneNumber) {
+    public Adopter(String firstName, String lastName, Integer probExtend, Long chatId, String userName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.probExtend = probExtend;
         this.chatId = chatId;
+        this.userName = userName;
         this.phoneNumber = phoneNumber;
     }
 
@@ -76,6 +81,14 @@ public class Adopter {
         this.chatId = chatId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -84,29 +97,6 @@ public class Adopter {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Adopter adopter)) return false;
-        return id.equals(adopter.id) && firstName.equals(adopter.firstName) && lastName.equals(adopter.lastName) && probExtend.equals(adopter.probExtend) && chatId.equals(adopter.chatId) && phoneNumber.equals(adopter.phoneNumber) && animalList.equals(adopter.animalList) && volunteer.equals(adopter.volunteer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getProbExtend(), getChatId(), getPhoneNumber());
-    }
-
-    @Override
-    public String toString() {
-        return "Adopter{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", chatId=" + chatId +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", probExtend=" + probExtend +
-                '}';
-    }
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "contract",
@@ -114,7 +104,7 @@ public class Adopter {
             inverseJoinColumns = @JoinColumn(name = "animal_id", referencedColumnName = "id"))
     private List<Animal> animalList;
 
-     @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
