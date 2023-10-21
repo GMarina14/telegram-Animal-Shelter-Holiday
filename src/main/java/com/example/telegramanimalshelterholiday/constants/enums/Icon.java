@@ -23,6 +23,9 @@ public enum Icon {
     REJECTION(":no_entry_sign:"),
     KITTY_CAT(":cat:"),
     PUPPY_DOG(":dog:"),
+    PREVIOUS(":arrow_backward:"),
+    MAIN(":small_red_triangle_down:"),
+    FIRST(":one:"),
 
     INFO(":information_source:");
 
