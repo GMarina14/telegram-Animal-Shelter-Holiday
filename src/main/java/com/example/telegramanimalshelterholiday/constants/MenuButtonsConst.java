@@ -17,6 +17,8 @@ public class MenuButtonsConst {
     public final static String REACH_ME_BACK = "REACH ME BACK "; // записать контактные данные
     // FOURTH MENU
     public final static String FIRST_MEETING = "FIRST MEETING";
+    public final static String DOCUMENTS_TO_ADOPT= "DOCUMENTS TO ADOPT";
+
     public final static String TRANSPORTATION_INFO = "TRANSPORTATION INFO";
     public final static String DOG_HANDLER_RECOMMENDATIONS = "DOG HANDLER RECOMMENDATIONS";
     public final static String HOME_ADJUSTMENT = "HOME ADJUSTMENT";
@@ -35,9 +37,17 @@ public class MenuButtonsConst {
     public final static String HEALTHY = "HEALTHY";
 
     //BUTTON INFORMATION MESSAGE
-    public final static String NO_VOLUNTEERS = "На данный момент имеется нагрузка на линиюю. Все волонтеры заняты. приносим извенения за данные неудобства.";
+    public final static String NO_VOLUNTEERS = "На данный момент все волонтеры заняты. Приносим извинения за доставленные неудобства. Пожалуйста, обратитесь к нам чуть позднее либо оставьте свои контакты для обратной связи.";
     public final static String CONTACT_USER= "Пожалуйста свяжитесь с пользователем с Id %s. Ему необходима помощь.";
     public final static String CONTACT_ID= "Пожалуйста свяжитесь с пользователем id %s. Ему необходима помощь.";
+
+    //BUTTONS TO RETURN
+    public final static String MAIN_PAGE ="MAIN PAGE";
+    public final static String PREVIOUS_PAGE="PREVIOUS PAGE";
+
+    // BUTTONS
+    public final static String FIRST_HANDLER_DATE="FIRST HANDLER DATE";
+    public final static String LIST_OF_HANDLERS="RECOMMENDED HANDLERS";
 
 
 

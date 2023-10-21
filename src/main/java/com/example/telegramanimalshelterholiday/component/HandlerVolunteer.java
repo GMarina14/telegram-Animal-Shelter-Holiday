@@ -30,8 +30,7 @@ public class HandlerVolunteer {
      * @param chatIdC
      */
     public void callVolunteer(Update update, long chatIdC) {
-        //String userId = ""; // client's chat_id or username
-        // userId = userId + update.message().from().id();
+
         long userId = chatIdC; // user's chat_id
         logger.info("UserId = {}", userId);
         Volunteer randomVolunteer;
