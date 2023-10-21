@@ -1,40 +1,26 @@
 package com.example.telegramanimalshelterholiday.listener;
 
-import com.example.telegramanimalshelterholiday.component.HandlerClient;
-import com.example.telegramanimalshelterholiday.component.HandlerVolunteer;
-import com.example.telegramanimalshelterholiday.constants.enums.Icon;
-import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
-import com.example.telegramanimalshelterholiday.model.Client;
-import com.example.telegramanimalshelterholiday.repository.ClientRepository;
-import com.example.telegramanimalshelterholiday.service.ClientService;
+import com.example.telegramanimalshelterholiday.component.*;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.SendResponse;
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_INFO;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_TEXT;
-import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelterCat.GREETING_CAT_SHELTER;
-import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelterDog.GREETING_DOG_SHELTER;
+import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.*;
+import static com.example.telegramanimalshelterholiday.constants.Recommendation.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
-import static java.util.Objects.isNull;
 
 
 @Service
@@ -46,8 +32,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final MessageService messageService;
     private final HandlerClient handlerClient;
-
     private final HandlerVolunteer handlerVolunteer;
+    private final HandlerFeedback handlerFeedback;
+    private final HandlerShelterInfo handlerShelterInfo;
+    private final HandlerBeforeAdoptionInfo handlerBeforeAdoptionInfo;
 
 
     @PostConstruct
@@ -177,27 +165,123 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case ALL_ABOUT_SHELTER:
-
-                    // check dog or cat shelter String replyText =
-                    //messageService.sendMessage(chatId, replyText);
+                    handlerShelterInfo.getGeneralShelterDescription(update, chatId);
                     messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
 
                 case ADOPTION_INFO:
-
+                    messageService.sendMessage(chatId, INFO_ABOUT_ADOPTION);
+                    // Нужна проверка приюта, чтобы выдавать без кинологов кнопки
+                    messageService.sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
                     break;
 
                 case ADOPTION_REPORTS:
-
+                    // YET IS EMPTY
+                    messageService.sendMessage(chatId, fifthMenuButtons(chatId), FIFTH_MENU);
                     break;
 
                 case CALL_VOLUNTEER:
                     handlerVolunteer.callVolunteer(update, chatId);
                     break;
 
+                case SHELTER_INFO:
+                    handlerShelterInfo.getShelterInformation(update, chatId);
+                    // check dog or cat shelter String replyText =
+                    //messageService.sendMessage(chatId, replyText);
+                    break;
+
+                case SECURITY_MEASURES:
+                    handlerShelterInfo.getSecurityMeasuresInfo(chatId);
+                    break;
+
+                case CAR_PASS:
+                    handlerShelterInfo.getCarPassInfo(update, chatId);
+                    // check dog or cat shelter String replyText =
+                    //messageService.sendMessage(chatId, replyText);
+                    break;
+
+                case REACH_ME_BACK:
+                    handlerFeedback.reachBackClient(chatId);
+                    // сброс состояния?? на главное меню
+                    //  messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+                    break;
+
+                case FIRST_MEETING:
+                    handlerBeforeAdoptionInfo.getInfoAboutFirstMeeting(update, chatId);
+                    break;
+
+                case DOCUMENTS_TO_ADOPT:
+                    handlerBeforeAdoptionInfo.getNeededDocsToAdopt(chatId);
+                    messageService.sendMessage(chatId, mainOrPreviousMenu(chatId), MAIN_PREVIOUS);
+                    break;
+
+                case TRANSPORTATION_INFO:
+                    handlerBeforeAdoptionInfo.getTransportationInfo(update, chatId);
+                    break;
+
+                case HOME_ADJUSTMENT:
+                    // отправляем меню
+                    // check dog or cat shelter
+                    messageService.sendMessage(chatId, catAgeMenuButtons(chatId), AGE_MENU);
+                    // messageService.sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
+                    break;
+
+                case REJECTION_REASONS:
+                    handlerBeforeAdoptionInfo.getReasonsOfRejection(chatId);
+                    break;
+
+
+                case DOG_HANDLER_RECOMMENDATIONS:
+                    messageService.sendMessage(chatId, dogHandlers(chatId), DOG_HANDLERS);
+                    break;
+
+                case  FIRST_HANDLER_DATE:
+                    handlerBeforeAdoptionInfo.getFirstHandlerDateRecommendations(chatId);
+                    break;
+                case LIST_OF_HANDLERS:
+                    handlerBeforeAdoptionInfo.getHandlersRecommendations(chatId);
+                    break;
+
+                case MAIN_PAGE:
+                    messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+                    break;
+
+                case PREVIOUS_PAGE:
+                    // по ответу на каком уровне сейчас и какой прошлый
+                    break;
+
+
+                //  home adjustment buttons
+                case CAT:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(CAT, chatId);
+                    break;
+
+                case DOG:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(DOG, chatId);
+                    break;
+
+                case KITTY:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(KITTY, chatId);
+                    break;
+
+                case PUPPY:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(PUPPY, chatId);
+                    break;
+
+                case SIGHT_PROBLEMS:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(SIGHT_PROBLEMS, chatId);
+                    break;
+
+                case MOBILITY_PROBLEMS:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(MOBILITY_PROBLEMS, chatId);
+                    break;
+
+                case HEALTHY:
+                    handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(HEALTHY, chatId);
+                    break;
 
                 default:
-                    messageService.sendMessage(chatId, "No");
+                    messageService.sendMessage(chatId, MESSAGE_INFO);
 
 
             }
