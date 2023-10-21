@@ -35,10 +35,10 @@ public class MenuButtonsConst {
     public final static String HEALTHY = "HEALTHY";
 
     //BUTTON INFORMATION MESSAGE
-    public final static String NO_VOLUNTEERS = "На данный момент имеется нагрузка на линию. Все волонтеры заняты. Приносим извенения за данные неудобства.";
-    public final static String CONTACT_USER = "Пожалуйста свяжитесь с пользователем с Id %s. Ему необходима помощь.";
-    public final static String  SAVE_ADOPTER = "Ваши контактные данные сохранены.";
-    public final static String WILL_CONTACT = "Волонтер свяжется с Вами";
+//    public final static String NO_VOLUNTEERS = "На данный момент имеется нагрузка на линию. Все волонтеры заняты. Приносим извенения за данные неудобства.";
+//    public final static String CONTACT_USER = "Пожалуйста свяжитесь с пользователем с Id %s. Ему необходима помощь.";
+//    public final static String  SAVE_ADOPTER = "Ваши контактные данные сохранены.";
+//    public final static String WILL_CONTACT = "Волонтер свяжется с Вами";
 
 
 }
