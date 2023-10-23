@@ -1,6 +1,7 @@
 package com.example.telegramanimalshelterholiday.controller;
 
 import com.example.telegramanimalshelterholiday.model.Adopter;
+import com.example.telegramanimalshelterholiday.model.Client;
 import com.example.telegramanimalshelterholiday.repository.AdopterRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class AdopterControllerTest {
     @Test
     void shouldAddNewAdopter() {
         //given
-        Adopter adopter = new Adopter("Ivan", "Ivanov", 10, 45L, "007");
+        Adopter adopter = new Adopter("Ivan", "Ivanov", 10, 10L, "Neo", "121314");
 
         //when
         ResponseEntity<Adopter> response = restTemplate.postForEntity("/adopter", adopter, Adopter.class);
@@ -50,16 +52,37 @@ public class AdopterControllerTest {
 
     }
 
+
+    @Test
+    void shouldUpdateAdopter() {
+        //given
+        Long id = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314").getId();
+        Adopter expected = new Adopter("Egor", "Egorovich", 10, 10L, "Neo", "121314");
+
+
+
+        //when
+        ResponseEntity<Adopter> response = restTemplate.exchange("/adopter", HttpMethod.PUT, new HttpEntity<>(expected), Adopter.class);
+        //then
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(response.getBody()).isNotNull();
+
+        Adopter actual = response.getBody();
+        Assertions.assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
+
+    }
+
     @Test
     void shouldGetAllAdopters() {
         //given
-        createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 45L, "007");
-        createAdopterAndSaveInBd("Ivan1", "Ivanov1", 100, 450L, "008");
-        createAdopterAndSaveInBd("Ivan2", "Ivanov2", 200, 250L, "2008");
+        createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314");
+        createAdopterAndSaveInBd("Kolyan", "Nikolaev", 11, 11L, "Trinity", "131412");
+        createAdopterAndSaveInBd("Gosha", "Grigoriev", 12, 12L, "Morpheus", "14111234");
 
-        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov", 10, 45L, "007"),
-                new Adopter("Ivan1", "Ivanov1", 100, 450L, "008"),
-                new Adopter("Ivan2", "Ivanov2", 200, 250L, "2008")));
+
+        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov", 10, 10L, "Neo", "121314"),
+                new Adopter("Kolyan", "Nikolaev", 11, 11L, "Trinity", "131412"),
+                new Adopter("Gosha", "Grigoriev", 12, 12L, "Morpheus", "14111234")));
 
         //when
         ResponseEntity<List<Adopter>> response = restTemplate.exchange("/adopter/get-all-adopters", HttpMethod.GET,
@@ -75,7 +98,7 @@ public class AdopterControllerTest {
     @Test
     void shouldRemoveAdopter() {
         //given
-        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 45L, "007").getId();
+        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314").getId();
 
         //when
         restTemplate.delete("/adopter/{id}", adopterId);
@@ -85,9 +108,8 @@ public class AdopterControllerTest {
 
     }
 
-    private Adopter createAdopterAndSaveInBd(String firstName, String lastName, Integer probExtend, Long chatId, String phoneNumber) {
-
-        Adopter adopter = new Adopter(firstName, lastName, probExtend, chatId, phoneNumber);
+    private Adopter createAdopterAndSaveInBd(String firstName, String lastName, Integer probExtend, Long chatId, String userName, String phoneNumber) {
+        Adopter adopter = new Adopter(firstName, lastName, probExtend, chatId, userName, phoneNumber);
         return adopterRepository.save(adopter);
     }
 

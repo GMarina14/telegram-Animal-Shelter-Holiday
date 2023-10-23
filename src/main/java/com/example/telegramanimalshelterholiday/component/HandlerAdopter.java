@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.SAVE_ADOPTER;
-import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.WILL_CONTACT;
+//import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.SAVE_ADOPTER;
+//import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.WILL_CONTACT;
 import static java.util.Objects.isNull;
 
 @Component
@@ -41,10 +41,10 @@ public class HandlerAdopter {
                 adopter = new Adopter(firstName,lastName, adopter.getProbExtend(), chatId,userName,phone);
 
 
-           //     adopter.setUpdateStatus(UpdateStatus.DEFAULT);
+           /*//     adopter.setUpdateStatus(UpdateStatus.DEFAULT);
                 adopterRepository.save(adopter);
                 messageService.sendMessage(chatId,SAVE_ADOPTER+ " " + WILL_CONTACT);
-                //
+                //*/
 
 //                SendMessage message = new SendMessage(chatId, SAVE_ADOPTER_SUCCESS_TEXT + ' ' + WE_WILL_CALL_YOU_TEXT);
 //                sendMessage(message.replyMarkup(createMainMenuKeyboardButtons()));
