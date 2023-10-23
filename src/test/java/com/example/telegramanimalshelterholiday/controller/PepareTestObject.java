@@ -66,7 +66,7 @@ public class PepareTestObject {
         adopter.setFirstName("Ivan");
         adopter.setLastName("Ivan");
         adopter.setChatId(37L);
-        adopter.setProbExtend(30);
+        adopter.setUserName("try");
         adopter.setPhoneNumber("7896543698");
         return adopter;
     }
@@ -77,7 +77,7 @@ public class PepareTestObject {
         adopter.setFirstName("Ivan");
         adopter.setLastName("Ivan");
         adopter.setChatId(37L);
-        adopter.setProbExtend(30);
+        adopter.setUserName("tru");
         adopter.setPhoneNumber("7896543698");
         return adopter;
     }

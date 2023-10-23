@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ContractRepository extends JpaRepository <Contract, Long>{
 
@@ -18,6 +19,5 @@ public interface ContractRepository extends JpaRepository <Contract, Long>{
 
     @Query(value = "SELECT * FROM contract WHERE id = :id", nativeQuery = true)
     Contract findByid(@Param("id") Long id);
-
 
 }
