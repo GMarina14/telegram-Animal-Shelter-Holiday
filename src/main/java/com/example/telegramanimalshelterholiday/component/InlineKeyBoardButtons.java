@@ -1,18 +1,12 @@
 package com.example.telegramanimalshelterholiday.component;
 
 import com.example.telegramanimalshelterholiday.constants.enums.Icon;
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 
@@ -21,7 +15,6 @@ import static com.example.telegramanimalshelterholiday.constants.MenuButtonsCons
 public class InlineKeyBoardButtons {
 
     private static final Logger logger = LoggerFactory.getLogger(InlineKeyBoardButtons.class);
-    private final TelegramBot telegramBot;
 
     /**
      * Creating buttons so user can choose the needed shelter (first menu)
@@ -65,6 +58,7 @@ public class InlineKeyBoardButtons {
         InlineKeyboardButton reportButton = new InlineKeyboardButton(Icon.REPORT.getParse() + " " + ADOPTION_REPORTS).callbackData(ADOPTION_REPORTS);
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
 
+
         // добавляем кнопки
 
         markupInline.addRow(reportButton, volunteerButton);
@@ -99,9 +93,10 @@ public class InlineKeyBoardButtons {
 
         // создаем третий ряд меню
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
+        InlineKeyboardButton contactButton = new InlineKeyboardButton(Icon.CONTACT.getParse() + " " + BUTTON_SHARE_CONTACT).callbackData(BUTTON_SHARE_CONTACT);
 
         // добавляем кнопки
-        markupInline.addRow(volunteerButton);
+        markupInline.addRow(volunteerButton, contactButton);
 
         return markupInline;
     }
@@ -119,7 +114,7 @@ public class InlineKeyBoardButtons {
         // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
         // Кнопки первого ряда
         InlineKeyboardButton meetAnimalButton = new InlineKeyboardButton(Icon.SPARKLES.getParse() + " " + FIRST_MEETING).callbackData(FIRST_MEETING);
-        InlineKeyboardButton docsToAdopt = new InlineKeyboardButton(Icon.REPORT.getParse()+" "+DOCUMENTS_TO_ADOPT).callbackData(DOCUMENTS_TO_ADOPT);
+        InlineKeyboardButton docsToAdopt = new InlineKeyboardButton(Icon.REPORT.getParse() + " " + DOCUMENTS_TO_ADOPT).callbackData(DOCUMENTS_TO_ADOPT);
 
         // добавляем кнопки
         markupInline.addRow(meetAnimalButton, docsToAdopt);
@@ -233,7 +228,7 @@ public class InlineKeyBoardButtons {
         markupInline.addRow(hasSightProblems, hasMobilityProblems);
 
         // создаем второй ряд меню
-        InlineKeyboardButton isHealthy = new InlineKeyboardButton(" "+ HEALTHY).callbackData(HEALTHY);
+        InlineKeyboardButton isHealthy = new InlineKeyboardButton(" " + HEALTHY).callbackData(HEALTHY);
 
         // добавляем кнопки
         markupInline.addRow(isHealthy);
@@ -243,17 +238,18 @@ public class InlineKeyBoardButtons {
 
     /**
      * Creating buttons so user can return on the main page or to the previous level of the menu
+     *
      * @param chatId
      * @return {@code InlineKeyboardMarkup}
      */
-    public static InlineKeyboardMarkup mainOrPreviousMenu(long chatId){
+    public static InlineKeyboardMarkup mainOrPreviousMenu(long chatId) {
         //Создаем объект разметки клавиатуры:
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
         // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
         // Кнопки
-        InlineKeyboardButton mainButton = new InlineKeyboardButton(Icon.MAIN.getParse()+" "+ MAIN_PAGE).callbackData(MAIN_PAGE);
-        InlineKeyboardButton previousButton = new InlineKeyboardButton(Icon.PREVIOUS.getParse()+" "+ PREVIOUS_PAGE).callbackData(PREVIOUS_PAGE);
+        InlineKeyboardButton mainButton = new InlineKeyboardButton(Icon.MAIN.getParse() + " " + MAIN_PAGE).callbackData(MAIN_PAGE);
+        InlineKeyboardButton previousButton = new InlineKeyboardButton(Icon.PREVIOUS.getParse() + " " + PREVIOUS_PAGE).callbackData(PREVIOUS_PAGE);
 
         // добавляем кнопки в первый ряд в том порядке,какой нам необходим
         markupInline.addRow(mainButton, previousButton);
@@ -265,28 +261,24 @@ public class InlineKeyBoardButtons {
     /**
      * Creating buttons for dog adoption
      * Options to chose dog handlers
+     *
      * @param chatId
      * @return {@code InlineKeyboardMarkup}
      */
-    public static InlineKeyboardMarkup dogHandlers(long chatId){
+    public static InlineKeyboardMarkup dogHandlers(long chatId) {
         //Создаем объект разметки клавиатуры:
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
         // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
         // Кнопки
-        InlineKeyboardButton firstMeetWithDogHandlers = new InlineKeyboardButton(Icon.FIRST.getParse()+" "+FIRST_HANDLER_DATE).callbackData(FIRST_HANDLER_DATE);
-        InlineKeyboardButton listOfHandlers = new InlineKeyboardButton(Icon.REPORT.getParse()+" "+ LIST_OF_HANDLERS).callbackData(LIST_OF_HANDLERS);
+        InlineKeyboardButton firstMeetWithDogHandlers = new InlineKeyboardButton(Icon.FIRST.getParse() + " " + FIRST_HANDLER_DATE).callbackData(FIRST_HANDLER_DATE);
+        InlineKeyboardButton listOfHandlers = new InlineKeyboardButton(Icon.REPORT.getParse() + " " + LIST_OF_HANDLERS).callbackData(LIST_OF_HANDLERS);
 
         // добавляем кнопки в первый ряд в том порядке,какой нам необходим
         markupInline.addRow(firstMeetWithDogHandlers, listOfHandlers);
 
         return markupInline;
-
     }
-
-
-
-
 
 
 }

@@ -17,6 +17,7 @@ public enum Icon {
     WARNING(":warning:"),
     CAR (":red_car:"),
     PHONE(":telephone:"),
+    CONTACT(":card_index:"),
     SAMPLE (":page_with_curl:"),
     SPARKLES(":sparkles:"),
     TRANSPORT(":oncoming_taxi:"),

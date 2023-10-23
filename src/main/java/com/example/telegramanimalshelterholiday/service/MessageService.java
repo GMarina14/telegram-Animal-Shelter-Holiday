@@ -2,6 +2,7 @@ package com.example.telegramanimalshelterholiday.service;
 
 import com.example.telegramanimalshelterholiday.listener.TelegramBotUpdatesListener;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import jakarta.annotation.PostConstruct;
@@ -55,4 +56,14 @@ public class MessageService {
             logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
         }
     }
+
+    public void sendMessage(long chatId, ReplyKeyboardMarkup replyKeyboardMarkup, String heading) {
+        SendMessage message = new SendMessage(chatId, heading);
+        message.replyMarkup(replyKeyboardMarkup);
+        SendResponse response = telegramBot.execute(message);
+        if (!isNull(response) && !response.isOk()) {
+            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
+        }
+    }
+
 }
