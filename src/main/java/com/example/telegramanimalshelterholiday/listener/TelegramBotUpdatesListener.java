@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.listener;
 
+import com.example.telegramanimalshelterholiday.cache.UserDataCache;
 import com.example.telegramanimalshelterholiday.component.*;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.pengrad.telegrambot.TelegramBot;
@@ -17,10 +18,11 @@ import java.util.List;
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_INFO;
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsMessageBot.MESSAGE_TEXT;
-import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.*;
-import static com.example.telegramanimalshelterholiday.constants.Recommendation.*;
+import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.GREETING_CAT_SHELTER;
+import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.GREETING_DOG_SHELTER;
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
+import static com.example.telegramanimalshelterholiday.constants.Recommendation.INFO_ABOUT_ADOPTION;
 
 
 @Service
@@ -36,9 +38,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerFeedback handlerFeedback;
     private final HandlerShelterInfo handlerShelterInfo;
     private final HandlerBeforeAdoptionInfo handlerBeforeAdoptionInfo;
+    private final HandlerState handlerState;
 
 
-    @PostConstruct
+
+        @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
     }
@@ -58,6 +62,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
             if (update.message() != null) {
                 firstMessage(update);
+                handlerState.statusHandler(update);
 
             } else if (update.callbackQuery() != null) {
 
@@ -131,10 +136,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
       if (client.isEmpty())
           clientRepository*/
 
-        handlerClient.saveClient(update);//может поставить его после /start?
+        handlerClient.saveClient(update);
 
         if (text.contains("/start"))
-
             messageService.sendMessage(chatId, MESSAGE_TEXT);
         else if (text == null) {
             return;
@@ -235,11 +239,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     messageService.sendMessage(chatId, dogHandlers(chatId), DOG_HANDLERS);
                     break;
 
-                case  FIRST_HANDLER_DATE:
+                case FIRST_HANDLER_DATE:
                     handlerBeforeAdoptionInfo.getFirstHandlerDateRecommendations(chatId);
                     break;
                 case LIST_OF_HANDLERS:
                     handlerBeforeAdoptionInfo.getHandlersRecommendations(chatId);
+
                     break;
 
                 case MAIN_PAGE:

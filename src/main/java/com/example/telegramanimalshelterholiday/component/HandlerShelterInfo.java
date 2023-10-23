@@ -2,7 +2,6 @@ package com.example.telegramanimalshelterholiday.component;
 
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.example.telegramanimalshelterholiday.service.ShelterService;
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import static com.example.telegramanimalshelterholiday.constants.InfoConstantsSh
 @RequiredArgsConstructor
 public class HandlerShelterInfo {
     private static final Logger logger = LoggerFactory.getLogger(HandlerShelterInfo.class);
-    private final TelegramBot telegramBot;
     private final MessageService messageService;
     private final ShelterService shelterService;
 

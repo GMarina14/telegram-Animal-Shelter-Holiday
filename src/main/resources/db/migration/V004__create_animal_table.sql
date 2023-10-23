@@ -7,5 +7,5 @@ sex VARCHAR,
 health VARCHAR,
 shelter_id INT8 REFERENCES shelter(id)
 );
-CREATE SEQUENCE animal_sequence START 1 INCREMENT 1;
+CREATE SEQUENCE animal_sequence START 12 INCREMENT 1;
 

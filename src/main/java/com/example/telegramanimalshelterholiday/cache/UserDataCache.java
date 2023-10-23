@@ -12,6 +12,7 @@ import static java.util.Objects.isNull;
 public class UserDataCache implements DataCache {
     private Map<Long, BotState> userBotStates = new HashMap<>();
 
+
     /**
      * Назначить состояние бота пользователю
      *
@@ -33,7 +34,7 @@ public class UserDataCache implements DataCache {
     public BotState getUsersCurrentBotState(long chatId) {
         BotState botState = userBotStates.get(chatId);
         if (isNull(botState)) {
-            botState = BotState.START;
+            botState = BotState.CHOICES_SHELTER;
             //первое сотояние бота
         }
         return botState;
@@ -44,6 +45,8 @@ public class UserDataCache implements DataCache {
 
         userBotStates.put(chatId, botState);
     }
+
+
 
 
 }

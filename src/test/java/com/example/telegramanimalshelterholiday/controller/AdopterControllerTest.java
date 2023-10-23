@@ -33,7 +33,7 @@ public class AdopterControllerTest {
     @Test
     void shouldAddNewAdopter() {
         //given
-        Adopter adopter = new Adopter("Ivan", "Ivanov", 10, 45L, "007");
+        Adopter adopter = new Adopter("Ivan", "Ivanov", 45L, "try", "007");
 
         //when
         ResponseEntity<Adopter> response = restTemplate.postForEntity("/adopter", adopter, Adopter.class);
@@ -44,8 +44,8 @@ public class AdopterControllerTest {
         Assertions.assertThat(response.getBody().getId()).isNotNull();
         Assertions.assertThat(response.getBody().getFirstName()).isEqualTo(adopter.getFirstName());
         Assertions.assertThat(response.getBody().getLastName()).isEqualTo(adopter.getLastName());
-        Assertions.assertThat(response.getBody().getProbExtend()).isEqualTo(adopter.getProbExtend());
         Assertions.assertThat(response.getBody().getChatId()).isEqualTo(adopter.getChatId());
+        Assertions.assertThat(response.getBody().getUserName()).isEqualTo(adopter.getUserName());
         Assertions.assertThat(response.getBody().getPhoneNumber()).isEqualTo(adopter.getPhoneNumber());
 
     }
@@ -53,18 +53,18 @@ public class AdopterControllerTest {
     @Test
     void shouldGetAllAdopters() {
         //given
-        createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 45L, "007");
-        createAdopterAndSaveInBd("Ivan1", "Ivanov1", 100, 450L, "008");
-        createAdopterAndSaveInBd("Ivan2", "Ivanov2", 200, 250L, "2008");
+        createAdopterAndSaveInBd("Ivan", "Ivanov", 45L,"try","007" );
+        createAdopterAndSaveInBd("Ivan1", "Ivanov1",  450L,"qwe", "008");
+        createAdopterAndSaveInBd("Ivan2", "Ivanov2",  250L, "cvg","2008");
 
-        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov", 10, 45L, "007"),
-                new Adopter("Ivan1", "Ivanov1", 100, 450L, "008"),
-                new Adopter("Ivan2", "Ivanov2", 200, 250L, "2008")));
+        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov",  45L,"try", "007"),
+                new Adopter("Ivan1", "Ivanov1",  450L,"qwe", "008"),
+                new Adopter("Ivan2", "Ivanov2",  250L,"cvg", "2008")));
 
         //when
         ResponseEntity<List<Adopter>> response = restTemplate.exchange("/adopter/get-all-adopters", HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<Adopter>>() {
-        });
+                });
 
         //then
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -75,7 +75,7 @@ public class AdopterControllerTest {
     @Test
     void shouldRemoveAdopter() {
         //given
-        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 45L, "007").getId();
+        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov", 45L,"try", "007").getId();
 
         //when
         restTemplate.delete("/adopter/{id}", adopterId);
@@ -85,9 +85,9 @@ public class AdopterControllerTest {
 
     }
 
-    private Adopter createAdopterAndSaveInBd(String firstName, String lastName, Integer probExtend, Long chatId, String phoneNumber) {
+    private Adopter createAdopterAndSaveInBd(String firstName, String lastName, Long chatId, String userName, String phoneNumber) {
 
-        Adopter adopter = new Adopter(firstName, lastName, probExtend, chatId, phoneNumber);
+        Adopter adopter = new Adopter(firstName, lastName, chatId, userName, phoneNumber);
         return adopterRepository.save(adopter);
     }
 

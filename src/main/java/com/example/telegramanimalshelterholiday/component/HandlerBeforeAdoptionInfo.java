@@ -1,27 +1,21 @@
 package com.example.telegramanimalshelterholiday.component;
 
 import com.example.telegramanimalshelterholiday.service.MessageService;
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
-import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.ABOUT_CAT_SHELTER;
-import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.ABOUT_DOG_SHELTER;
+import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.petSpecificMenuButtons;
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
-import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
+import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.HEALTH_MENU;
 import static com.example.telegramanimalshelterholiday.constants.Recommendation.*;
 
 @Component
 @RequiredArgsConstructor
 public class HandlerBeforeAdoptionInfo {
     private static final Logger logger = LoggerFactory.getLogger(HandlerBeforeAdoptionInfo.class);
-    private final TelegramBot telegramBot;
     private final MessageService messageService;
 
     /**
