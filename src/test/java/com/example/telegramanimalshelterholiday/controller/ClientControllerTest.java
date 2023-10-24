@@ -1,8 +1,6 @@
 package com.example.telegramanimalshelterholiday.controller;
 
-import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
 import com.example.telegramanimalshelterholiday.model.Client;
-import com.example.telegramanimalshelterholiday.model.Shelter;
 import com.example.telegramanimalshelterholiday.repository.ClientRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
