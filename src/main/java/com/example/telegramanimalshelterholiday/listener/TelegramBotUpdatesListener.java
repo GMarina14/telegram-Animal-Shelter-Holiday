@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.*;
@@ -39,6 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerShelterInfo handlerShelterInfo;
     private final HandlerBeforeAdoptionInfo handlerBeforeAdoptionInfo;
     private final HandlerState handlerState;
+    private final HandlerReport handlerReport;
 
 
 
@@ -66,7 +68,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
             } else if (update.callbackQuery() != null) {
 
-                processButtonClick(update);
+                try {
+                    processButtonClick(update);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         });
@@ -153,7 +159,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param update
      * @see com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons
      */
-    private void processButtonClick(Update update) {
+    private void processButtonClick(Update update) throws IOException {
         CallbackQuery callbackQuery = update.callbackQuery();
         if (callbackQuery != null) {
             long chatId = callbackQuery.message().chat().id();
@@ -169,6 +175,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case ALL_ABOUT_SHELTER:
+
                     handlerShelterInfo.getGeneralShelterDescription(update, chatId);
                     messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
@@ -180,8 +187,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case ADOPTION_REPORTS:
+                   // handlerReport.sendPhoto(chatId);
                     // YET IS EMPTY
-                    messageService.sendMessage(chatId, fifthMenuButtons(chatId), FIFTH_MENU);
+                      messageService.sendMessage(chatId, fifthMenuButtons(chatId), FIFTH_MENU);
                     break;
 
                 case CALL_VOLUNTEER:
@@ -247,6 +255,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                     break;
 
+                case GET_REPORT_SAMPLE:
+                    messageService.sendMessage(chatId, dogOrCatReportSample(chatId), REPORT_SAMPLE_TYPE);
+                    break;
+
                 case MAIN_PAGE:
                     messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
                     break;
@@ -285,6 +297,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(HEALTHY, chatId);
                     break;
 
+                    // REPORTS
+                case CAT_REPORT:
+                    handlerReport.sendReportSample(chatId, CAT_REPORT);
+                    break;
+                case DOG_REPORT:
+                    handlerReport.sendReportSample(chatId, DOG_REPORT);
+                    break;
+
                 default:
                     messageService.sendMessage(chatId, MESSAGE_INFO);
 
@@ -292,6 +312,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             }
         }
     }
+
+
+
 
 
     /**

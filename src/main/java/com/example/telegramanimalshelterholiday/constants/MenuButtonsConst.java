@@ -56,4 +56,10 @@ public class MenuButtonsConst {
     public final static String LIST_OF_HANDLERS = "RECOMMENDED HANDLERS";
 
 
+    // BUTTONS FOR REPORTS SAMPLES
+    public final static String CAT_REPORT="CAT REPORT";
+    public final static String DOG_REPORT="DOG REPORT";
+
+
+
 }

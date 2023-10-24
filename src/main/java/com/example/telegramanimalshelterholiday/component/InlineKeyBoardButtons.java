@@ -280,5 +280,21 @@ public class InlineKeyBoardButtons {
         return markupInline;
     }
 
+    public static InlineKeyboardMarkup dogOrCatReportSample(long chatId){
+        //Создаем объект разметки клавиатуры:
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки
+        InlineKeyboardButton dogsReports = new InlineKeyboardButton(Icon.CAT.getParse() + " " + CAT_REPORT).callbackData(CAT_REPORT);
+        InlineKeyboardButton catsReports = new InlineKeyboardButton(Icon.DOG.getParse() + " " + DOG_REPORT).callbackData(DOG_REPORT);
+
+        // добавляем кнопки в первый ряд в том порядке,какой нам необходим
+        markupInline.addRow(dogsReports, catsReports);
+
+        return markupInline;
+
+    }
+
 
 }

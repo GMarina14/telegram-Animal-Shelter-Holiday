@@ -33,6 +33,7 @@ public class ReportService implements ReportInterface {
      */
     public Report createReport(Long contractId, Report report) {
         logger.info("Calling method of report creation");
+
         // Нужна проверка наличия контракта с таким номером через репозиторий контракта с выбросом исключения
 
         return reportRepository.save(report);
