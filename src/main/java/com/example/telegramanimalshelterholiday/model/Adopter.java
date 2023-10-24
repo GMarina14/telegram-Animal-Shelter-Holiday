@@ -21,23 +21,18 @@ public class Adopter {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "prob_extend")
-    private Integer probExtend;
-
     @Column(name = "chat_id")
     private Long chatId;
-
     @Column(name = "user_name")
     private String userName;
     @Column(name = "phone_number")
     private String phoneNumber;
 
 
-    public Adopter(String firstName, String lastName, Integer probExtend, Long chatId, String userName, String phoneNumber) {
+    public Adopter(String firstName, String lastName, Long chatId, String userName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.probExtend = probExtend;
-        this.chatId = chatId;
+               this.chatId = chatId;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
     }
@@ -63,14 +58,6 @@ public class Adopter {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Integer getProbExtend() {
-        return probExtend;
-    }
-
-    public void setProbExtend(Integer probExtend) {
-        this.probExtend = probExtend;
     }
 
     public Long getChatId() {

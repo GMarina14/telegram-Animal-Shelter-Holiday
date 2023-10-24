@@ -38,7 +38,7 @@ public class HandlerAdopter {
                 if (isNull(client)) {
                     throw new ClientNotFoundException("Client with given ChatId not found");
                 }
-                adopter = new Adopter(firstName,lastName, adopter.getProbExtend(), chatId,userName,phone);
+//                adopter = new Adopter(firstName,lastName, сhatId,userName,phone);
 
 
            /*//     adopter.setUpdateStatus(UpdateStatus.DEFAULT);

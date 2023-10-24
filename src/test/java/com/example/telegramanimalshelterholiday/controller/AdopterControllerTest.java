@@ -35,7 +35,7 @@ public class AdopterControllerTest {
     @Test
     void shouldAddNewAdopter() {
         //given
-        Adopter adopter = new Adopter("Ivan", "Ivanov", 10, 10L, "Neo", "121314");
+        Adopter adopter = new Adopter("Ivan", "Ivanov", 10L, "Neo", "121314");
 
         //when
         ResponseEntity<Adopter> response = restTemplate.postForEntity("/adopter", adopter, Adopter.class);
@@ -46,8 +46,7 @@ public class AdopterControllerTest {
         Assertions.assertThat(response.getBody().getId()).isNotNull();
         Assertions.assertThat(response.getBody().getFirstName()).isEqualTo(adopter.getFirstName());
         Assertions.assertThat(response.getBody().getLastName()).isEqualTo(adopter.getLastName());
-        Assertions.assertThat(response.getBody().getProbExtend()).isEqualTo(adopter.getProbExtend());
-        Assertions.assertThat(response.getBody().getChatId()).isEqualTo(adopter.getChatId());
+              Assertions.assertThat(response.getBody().getChatId()).isEqualTo(adopter.getChatId());
         Assertions.assertThat(response.getBody().getPhoneNumber()).isEqualTo(adopter.getPhoneNumber());
 
     }
@@ -56,8 +55,8 @@ public class AdopterControllerTest {
     @Test
     void shouldUpdateAdopter() {
         //given
-        Long id = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314").getId();
-        Adopter expected = new Adopter("Egor", "Egorovich", 10, 10L, "Neo", "121314");
+        Long id = createAdopterAndSaveInBd("Ivan", "Ivanov",  10L, "Neo", "121314").getId();
+        Adopter expected = new Adopter("Egor", "Egorovich",  10L, "Neo", "121314");
 
 
 
@@ -75,14 +74,14 @@ public class AdopterControllerTest {
     @Test
     void shouldGetAllAdopters() {
         //given
-        createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314");
-        createAdopterAndSaveInBd("Kolyan", "Nikolaev", 11, 11L, "Trinity", "131412");
-        createAdopterAndSaveInBd("Gosha", "Grigoriev", 12, 12L, "Morpheus", "14111234");
+        createAdopterAndSaveInBd("Ivan", "Ivanov",  10L, "Neo", "121314");
+        createAdopterAndSaveInBd("Kolyan", "Nikolaev",11L, "Trinity", "131412");
+        createAdopterAndSaveInBd("Gosha", "Grigoriev",  12L, "Morpheus", "14111234");
 
 
-        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov", 10, 10L, "Neo", "121314"),
-                new Adopter("Kolyan", "Nikolaev", 11, 11L, "Trinity", "131412"),
-                new Adopter("Gosha", "Grigoriev", 12, 12L, "Morpheus", "14111234")));
+        List<Adopter> expected = new ArrayList<>(List.of(new Adopter("Ivan", "Ivanov",  10L, "Neo", "121314"),
+                new Adopter("Kolyan", "Nikolaev", 11L, "Trinity", "131412"),
+                new Adopter("Gosha", "Grigoriev",  12L, "Morpheus", "14111234")));
 
         //when
         ResponseEntity<List<Adopter>> response = restTemplate.exchange("/adopter/get-all-adopters", HttpMethod.GET,
@@ -98,7 +97,7 @@ public class AdopterControllerTest {
     @Test
     void shouldRemoveAdopter() {
         //given
-        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov", 10, 10L, "Neo", "121314").getId();
+        Long adopterId = createAdopterAndSaveInBd("Ivan", "Ivanov",  10L, "Neo", "121314").getId();
 
         //when
         restTemplate.delete("/adopter/{id}", adopterId);
@@ -108,8 +107,8 @@ public class AdopterControllerTest {
 
     }
 
-    private Adopter createAdopterAndSaveInBd(String firstName, String lastName, Integer probExtend, Long chatId, String userName, String phoneNumber) {
-        Adopter adopter = new Adopter(firstName, lastName, probExtend, chatId, userName, phoneNumber);
+    private Adopter createAdopterAndSaveInBd(String firstName, String lastName,  Long chatId, String userName, String phoneNumber) {
+        Adopter adopter = new Adopter(firstName, lastName,  chatId, userName, phoneNumber);
         return adopterRepository.save(adopter);
     }
 
