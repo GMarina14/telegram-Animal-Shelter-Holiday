@@ -39,31 +39,31 @@ public class AdoptionDogController {
     }*/
 
     //выдает список рекомендаций по транспортировке собаки
-    @GetMapping("/reccomendation/transportation")
+    @GetMapping("/recommendation/transportation")
     public String getInfoAboutTransportation() {
         return adoptionService.getInfoAboutDogTransportation();
     }
 
     //выдает список рекомендаций по обустройству дома для щенка
-    @GetMapping("/reccomendation/home-adgustment-puppy")
+    @GetMapping("/recommendation/home-adgustment-puppy")
     public String getInfoAboutAdgustmentPuppy() {
         return adoptionService.getInfoAboutAdgustmentPuppy();
     }
 
     //выдает список рекомендаций по обустройству дома для взрослой собаки
-    @GetMapping("/reccomendation/home-adgustment-dog")
+    @GetMapping("/recommendation/home-adgustment-dog")
     public String getInfoAboutAdgustmentDog() {
         return adoptionService.getInfoAboutAdgustmentDog();
     }
 
     //выдает список рекомендаций по обустройству дома для животного с ограниченными возможностями (зрение)
-    @GetMapping("/reccomendation/home-adgustment-unhealthy-sight")
+    @GetMapping("/recommendation/home-adgustment-unhealthy-sight")
     public String getInfoAboutAdgustmentUnhealthyWithSightProblems() {
         return adoptionService.getInfoAboutAdgustmentUnhealthyWithSightProblems();
     }
 
     //выдает список рекомендаций по обустройству дома для животного с ограниченными возможностями (мобильность)
-    @GetMapping("/reccomendation/home-adgustment-unhealthy-mobility")
+    @GetMapping("/recommendation/home-adgustment-unhealthy-mobility")
     public String getInfoAboutAdgustmentUnhealthyMobilityProblems() {
         return adoptionService.getInfoAboutAdgustmentUnhealthyMobilityProblems();
     }
@@ -89,13 +89,13 @@ public class AdoptionDogController {
     }
 
     //совета кинолога по обращению с собакой
-    @GetMapping("/reccomendation/first-meeting-doghandler")
+    @GetMapping("/recommendation/first-meeting-doghandler")
     public String getAdviceFromDoghandler() {
         return adoptionService.getAdviceFromDoghandler();
     }
 
     //список проверенных кинологов
-    @GetMapping("/reccomendation/doghandlers")
+    @GetMapping("/recommendation/doghandlers")
     public String getGoodDoghandlers() {
         return adoptionService.getGoodDoghandlers();
     }
