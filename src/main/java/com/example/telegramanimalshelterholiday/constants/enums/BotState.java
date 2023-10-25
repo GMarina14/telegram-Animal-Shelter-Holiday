@@ -1,16 +1,23 @@
 package com.example.telegramanimalshelterholiday.constants.enums;
 
 public enum BotState {
-    CHOICES_SHELTER,
+
+    CHOICES_SHELTER, //вызывается после "позвать волонтера" для возврата в главное меню
     SHELTER_DOG,
     SHELTER_CAT,
-    STAGE_INFO_DOG,
-    STAGE_INFO_CAT,
-    STAGE_ADOPTER_IN_ADOPTION_INFO_MENU_CAT,
-    STAGE_ADOPTER_IN_ADOPTION_INFO_MENU_DOG,
-   STAGE_WAITING_FOR_PET_PICTURE,
+    INFO_SHELTER,  // вызывается для возврата в меню " Консультация нового пользователя".
+    KITTY_STATE,
+    PUPPY_STATE,
+    SIGHT_PROBLEMS_STATE,
+    MOBILITY_PROBLEMS_STATE,
+    POTENTIAL_ADOPTER,  // вызывается для возврата в меню "Консультация с потенциальным хозяином животного из приюта".
+
+    STAGE_ADOPTER_IN_ADOPTION_INFO_MENU,
+
+    STAGE_WAITING_FOR_PET_PICTURE,
     STAGE_WAITING_FOR_PET_DIET,
     STAGE_WAITING_FOR_WELL_BEING,
     WAITING_FOR_BEHAVIOR_CHANGE,
+    NOT_COMPLETE_REPORT, //не полный отчет
     DEFAULT
 }
