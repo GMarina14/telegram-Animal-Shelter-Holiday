@@ -1,7 +1,9 @@
 package com.example.telegramanimalshelterholiday.listener;
 
+import com.example.telegramanimalshelterholiday.cache.DataCache;
 import com.example.telegramanimalshelterholiday.cache.UserDataCache;
 import com.example.telegramanimalshelterholiday.component.*;
+import com.example.telegramanimalshelterholiday.constants.enums.BotState;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -39,10 +41,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerShelterInfo handlerShelterInfo;
     private final HandlerBeforeAdoptionInfo handlerBeforeAdoptionInfo;
     private final HandlerState handlerState;
+    private final UserDataCache userDataCache;
 
 
-
-        @PostConstruct
+    @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
     }
@@ -57,20 +59,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     @Override
     public int process(List<Update> updates) {
-        updates.forEach(update -> {
-            logger.info("Processing update: {}", update);
+        try {
+            updates.forEach(update -> {
+                logger.info("Processing update: {}", update);
 
-            if (update.message() != null) {
-                firstMessage(update);
-                handlerState.statusHandler(update);
+                if (update.message() != null) {
+                    firstMessage(update);
 
-            } else if (update.callbackQuery() != null) {
+                } else if (update.callbackQuery() != null) {
 
-                processButtonClick(update);
+                    processButtonClick(update);
 
-            }
-        });
-
+                }
+            });
+        } catch (Exception e) {
+            logger.error("Error while entering a message", e);
+        }
 
      /*   try {
             updates.forEach(update -> {
@@ -141,9 +145,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (text.contains("/start"))
             messageService.sendMessage(chatId, MESSAGE_TEXT);
         else if (text == null) {
+            //messageService.sendMessage(chatId, MESSAGE_TEXT);
             return;
         }
+        userDataCache.assignStartMenu(chatId); //присвоить начальное состояние бота
         messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+
     }
 
 
@@ -157,26 +164,37 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         CallbackQuery callbackQuery = update.callbackQuery();
         if (callbackQuery != null) {
             long chatId = callbackQuery.message().chat().id();
+            BotState botState = userDataCache.assignStartMenu(chatId);
             switch (callbackQuery.data()) {
                 case CAT_SHELTER:
+                    botState = BotState.SHELTER_CAT;
                     messageService.sendMessage(chatId, GREETING_CAT_SHELTER);
                     messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case DOG_SHELTER:
+                    botState = BotState.SHELTER_DOG;
                     messageService.sendMessage(chatId, GREETING_DOG_SHELTER);
                     messageService.sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
                     break;
 
                 case ALL_ABOUT_SHELTER:
-                    handlerShelterInfo.getGeneralShelterDescription(update, chatId);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerShelterInfo.getGeneralShelterDescriptionCat(update, chatId);
+                    } else {
+                        handlerShelterInfo.getGeneralShelterDescriptionDog(update, chatId);
+                    }
                     messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
 
                 case ADOPTION_INFO:
                     messageService.sendMessage(chatId, INFO_ABOUT_ADOPTION);
-                    // Нужна проверка приюта, чтобы выдавать без кинологов кнопки
-                    messageService.sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
+                    if (botState == BotState.SHELTER_CAT) {
+                        // Нужна проверка приюта, чтобы выдавать без кинологов кнопки
+                        messageService.sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
+                    } else {
+                        messageService.sendMessage(chatId, fourthMenuButtonsDog(chatId), FOURTH_MENU);
+                    }
                     break;
 
                 case ADOPTION_REPORTS:
@@ -206,8 +224,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 case REACH_ME_BACK:
                     handlerFeedback.reachBackClient(chatId);
+                    botState = BotState.CHOICES_SHELTER;
                     // сброс состояния?? на главное меню
-                    //  messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+                    messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
                     break;
 
                 case FIRST_MEETING:
@@ -226,8 +245,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case HOME_ADJUSTMENT:
                     // отправляем меню
                     // check dog or cat shelter
-                    messageService.sendMessage(chatId, catAgeMenuButtons(chatId), AGE_MENU);
-                    // messageService.sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
+                    if (botState == BotState.SHELTER_CAT) {
+                        messageService.sendMessage(chatId, catAgeMenuButtons(chatId), AGE_MENU);
+                    } else {
+                        messageService.sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
+                    }
                     break;
 
                 case REJECTION_REASONS:
@@ -236,6 +258,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
 
                 case DOG_HANDLER_RECOMMENDATIONS:
+
                     messageService.sendMessage(chatId, dogHandlers(chatId), DOG_HANDLERS);
                     break;
 
@@ -266,18 +289,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case KITTY:
+                    botState = BotState.KITTY_STATE;
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(KITTY, chatId);
                     break;
 
                 case PUPPY:
+                    botState = BotState.PUPPY_STATE;
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(PUPPY, chatId);
                     break;
 
                 case SIGHT_PROBLEMS:
+                    botState = BotState.SIGHT_PROBLEMS_STATE;
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(SIGHT_PROBLEMS, chatId);
                     break;
 
                 case MOBILITY_PROBLEMS:
+                    botState = BotState.MOBILITY_PROBLEMS_STATE;
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(MOBILITY_PROBLEMS, chatId);
                     break;
 
@@ -290,6 +317,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
 
             }
+            userDataCache.setUsersCurrentBotState(chatId, botState);
+
         }
     }
 

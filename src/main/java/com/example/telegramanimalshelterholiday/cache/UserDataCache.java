@@ -33,18 +33,21 @@ public class UserDataCache implements DataCache {
     @Override
     public BotState getUsersCurrentBotState(long chatId) {
         BotState botState = userBotStates.get(chatId);
+//        if (isNull(botState)) {
+//            botState = BotState.CHOICES_SHELTER;
+//            //первое сотояние бота
+//        }
+        return botState;
+    }
+    public BotState assignStartMenu(long chatId) {
+        BotState botState = userBotStates.get(chatId);
         if (isNull(botState)) {
             botState = BotState.CHOICES_SHELTER;
-            //первое сотояние бота
+            //первое сотояние бота вернуться может метод войд
         }
         return botState;
     }
 
-    @Override
-    public void saveUsersBotData(long chatId, BotState botState) {
-
-        userBotStates.put(chatId, botState);
-    }
 
 
 

@@ -15,6 +15,10 @@ public class HandlerClient {
     private static final Logger logger = LoggerFactory.getLogger(HandlerClient.class);
     private final ClientRepository clientRepository;
 
+    /**
+     * the method saves the bot user to the database
+     * @param update
+     */
     @NotNull
     public void saveClient(Update update) {
         String username = update.message().from().username();

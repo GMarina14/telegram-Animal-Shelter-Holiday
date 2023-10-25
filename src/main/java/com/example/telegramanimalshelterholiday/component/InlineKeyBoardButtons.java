@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.component;
 
+import com.example.telegramanimalshelterholiday.cache.UserDataCache;
 import com.example.telegramanimalshelterholiday.constants.enums.Icon;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
@@ -93,10 +94,10 @@ public class InlineKeyBoardButtons {
 
         // создаем третий ряд меню
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
-        InlineKeyboardButton contactButton = new InlineKeyboardButton(Icon.CONTACT.getParse() + " " + BUTTON_SHARE_CONTACT).callbackData(BUTTON_SHARE_CONTACT);
+      //  InlineKeyboardButton contactButton = new InlineKeyboardButton(Icon.CONTACT.getParse() + " " + BUTTON_SHARE_CONTACT).callbackData(BUTTON_SHARE_CONTACT);
 
         // добавляем кнопки
-        markupInline.addRow(volunteerButton, contactButton);
+        markupInline.addRow(volunteerButton);
 
         return markupInline;
     }
@@ -134,6 +135,47 @@ public class InlineKeyBoardButtons {
         // добавляем кнопки
         markupInline.addRow(transportationInfoButton, getContactsButton);
 
+//        // создаем четвертый ряд меню, если выбрали ПРИЮТ СОБАК!!!
+//        InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
+//        InlineKeyboardButton handlersRecommendationButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + Icon.DOG.getParse() + " " + DOG_HANDLER_RECOMMENDATIONS).callbackData(DOG_HANDLER_RECOMMENDATIONS);
+//
+//        // добавляем кнопки
+//        markupInline.addRow(volunteerButton, handlersRecommendationButton);
+
+        return markupInline;
+
+    }
+
+
+    //меню для собак
+    public static InlineKeyboardMarkup fourthMenuButtonsDog(long chatId) {
+        //Создаем объект разметки клавиатуры:
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки первого ряда
+        InlineKeyboardButton meetAnimalButton = new InlineKeyboardButton(Icon.SPARKLES.getParse() + " " + FIRST_MEETING).callbackData(FIRST_MEETING);
+        InlineKeyboardButton docsToAdopt = new InlineKeyboardButton(Icon.REPORT.getParse() + " " + DOCUMENTS_TO_ADOPT).callbackData(DOCUMENTS_TO_ADOPT);
+
+        // добавляем кнопки
+        markupInline.addRow(meetAnimalButton, docsToAdopt);
+
+
+        // создаем второй ряд меню
+        InlineKeyboardButton rejectionInfoButton = new InlineKeyboardButton(Icon.REJECTION.getParse() + " " + REJECTION_REASONS).callbackData(REJECTION_REASONS);
+        InlineKeyboardButton homeAdjustmentButton = new InlineKeyboardButton(Icon.HOUSE.getParse() + " " + HOME_ADJUSTMENT).callbackData(HOME_ADJUSTMENT);
+
+        // добавляем кнопки
+        markupInline.addRow(rejectionInfoButton, homeAdjustmentButton);
+
+        // создаем третий ряд меню
+        InlineKeyboardButton transportationInfoButton = new InlineKeyboardButton(Icon.TRANSPORT.getParse() + " " + TRANSPORTATION_INFO).callbackData(TRANSPORTATION_INFO);
+        InlineKeyboardButton getContactsButton = new InlineKeyboardButton(Icon.PHONE.getParse() + " " + REACH_ME_BACK).callbackData(REACH_ME_BACK);
+
+        // добавляем кнопки
+        markupInline.addRow(transportationInfoButton, getContactsButton);
+
         // создаем четвертый ряд меню, если выбрали ПРИЮТ СОБАК!!!
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
         InlineKeyboardButton handlersRecommendationButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + Icon.DOG.getParse() + " " + DOG_HANDLER_RECOMMENDATIONS).callbackData(DOG_HANDLER_RECOMMENDATIONS);
@@ -144,6 +186,7 @@ public class InlineKeyBoardButtons {
         return markupInline;
 
     }
+
 
     /**
      * Creating buttons so user can choose the needed action to send the report (fifth menu)

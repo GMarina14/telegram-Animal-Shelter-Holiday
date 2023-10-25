@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.component;
 
+import com.example.telegramanimalshelterholiday.cache.UserDataCache;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.example.telegramanimalshelterholiday.service.ShelterService;
 import com.pengrad.telegrambot.model.Update;
@@ -16,7 +17,7 @@ public class HandlerShelterInfo {
     private static final Logger logger = LoggerFactory.getLogger(HandlerShelterInfo.class);
     private final MessageService messageService;
     private final ShelterService shelterService;
-
+    private final UserDataCache userDataCache;
 
     /**
      * Provides the shelter description
@@ -24,13 +25,22 @@ public class HandlerShelterInfo {
      * @param update
      * @param chatId
      */
-    public void getGeneralShelterDescription(Update update, long chatId) {
+    public void getGeneralShelterDescriptionCat(Update update, long chatId) {
         // third param - state or smth to know the shelter type
         // check dog or cat shelter String replyText =
         //messageService.sendMessage(chatId, replyText);
 
         messageService.sendMessage(chatId, ABOUT_CAT_SHELTER);
         //or
+//        messageService.sendMessage(chatId, ABOUT_DOG_SHELTER);
+   }
+    public void getGeneralShelterDescriptionDog(Update update, long chatId) {
+        // third param - state or smth to know the shelter type
+        // check dog or cat shelter String replyText =
+        //messageService.sendMessage(chatId, replyText);
+
+       // messageService.sendMessage(chatId, ABOUT_CAT_SHELTER);
+
         messageService.sendMessage(chatId, ABOUT_DOG_SHELTER);
     }
 
