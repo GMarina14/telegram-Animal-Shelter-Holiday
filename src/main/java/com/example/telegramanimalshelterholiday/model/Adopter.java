@@ -31,6 +31,8 @@ public class Adopter {
     private String phoneNumber;
 
 
+
+
     public Adopter(String firstName, String lastName, Long chatId, String userName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;

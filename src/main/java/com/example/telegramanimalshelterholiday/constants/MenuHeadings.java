@@ -11,6 +11,17 @@ public class MenuHeadings {
     public final static String MAIN_PREVIOUS= "Выберите на какую страницу Вы хотели бы вернуться";
     public final static String DOG_HANDLERS= "Выберите категорию";
     public static final String REPORT_SAMPLE_TYPE = "Выберите вид животного";
+    // BUTTONS REPORT SECTIONS
+    public final static String REPORT_SECTIONS = "Выберите раздел отчета для заполнения";
+
+    public final static String SEND_PHOTO_REPORT = "Пожалуйста, направьте фотографию питомца";
+    public final static String SEND_DIET_REPORT = "Пожалуйста, направьте информацию о диете питомца";
+    public final static String SEND_BEHAVIOR_REPORT = "Пожалуйста, направьте информацию о поведении питомца";
+    public final static String SEND_HEALTH_AND_STATE_REPORT = "Пожалуйста, направьте информацию о состоянии здоровья питомца";
+
+    public final static String SAVE_ANYWAY_CORRECT = "Сохранить отчет или Вы хотели бы дополнить разделы";
+    public final static String SAVE_CANCEL_CORRECT_REPORT = "Выберите действие";
+
 
 
 }

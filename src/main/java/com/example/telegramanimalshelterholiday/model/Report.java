@@ -25,6 +25,10 @@ public class Report {
     @Column(name = "report_data")
     private LocalDate reportDate;
 
+    @Column(name = "chat_id")
+    private Long chatId;
+    
+
     /**
      * Аннотация @Lob подсказывает Hibernate, что в поле хранится Large Object.
      */

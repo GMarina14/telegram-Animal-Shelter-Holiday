@@ -21,6 +21,14 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     /**
      * Получение и просмотр отдельного отчета, направленного в рамках контракта
      */
-  public Optional<Report> findByContractIdAndAndReportDate(Long contractId, LocalDate date);
+    public Optional<Report> findByContractIdAndAndReportDate(Long contractId, LocalDate date);
+
+    Optional<Collection<Report>> findReportByChatId(Long chatId);
+
+    Report findByChatIdAndAndReportDate(Long chatId, LocalDate date);
+
+    public Optional<Collection<Report>> findAllByReportDate(LocalDate date);
+
+
 
 }
