@@ -94,7 +94,7 @@ public class InlineKeyBoardButtons {
 
         // создаем третий ряд меню
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
-      //  InlineKeyboardButton contactButton = new InlineKeyboardButton(Icon.CONTACT.getParse() + " " + BUTTON_SHARE_CONTACT).callbackData(BUTTON_SHARE_CONTACT);
+        //  InlineKeyboardButton contactButton = new InlineKeyboardButton(Icon.CONTACT.getParse() + " " + BUTTON_SHARE_CONTACT).callbackData(BUTTON_SHARE_CONTACT);
 
         // добавляем кнопки
         markupInline.addRow(volunteerButton);
@@ -135,12 +135,6 @@ public class InlineKeyBoardButtons {
         // добавляем кнопки
         markupInline.addRow(transportationInfoButton, getContactsButton);
 
-//        // создаем четвертый ряд меню, если выбрали ПРИЮТ СОБАК!!!
-//        InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
-//        InlineKeyboardButton handlersRecommendationButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + Icon.DOG.getParse() + " " + DOG_HANDLER_RECOMMENDATIONS).callbackData(DOG_HANDLER_RECOMMENDATIONS);
-//
-//        // добавляем кнопки
-//        markupInline.addRow(volunteerButton, handlersRecommendationButton);
 
         return markupInline;
 
@@ -323,7 +317,13 @@ public class InlineKeyBoardButtons {
         return markupInline;
     }
 
-    public static InlineKeyboardMarkup dogOrCatReportSample(long chatId){
+    /**
+     * Creating buttons for dog or cat report Samples
+     *
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
+    public static InlineKeyboardMarkup dogOrCatReportSample(long chatId) {
         //Создаем объект разметки клавиатуры:
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
@@ -339,5 +339,106 @@ public class InlineKeyBoardButtons {
 
     }
 
+    /**
+     * Creating buttons for report sections
+     *
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
+    public static InlineKeyboardMarkup reportButtons(long chatId) {
+        //Создаем объект разметки клавиатуры:
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки
+        InlineKeyboardButton photoButton = new InlineKeyboardButton(" " + PHOTO).callbackData(PHOTO);
+        InlineKeyboardButton dietButton = new InlineKeyboardButton(" " + DIET).callbackData(DIET);
+
+        // добавляем кнопки в первый ряд в том порядке,какой нам необходим
+        markupInline.addRow(photoButton, dietButton);
+
+        // Кнопки
+        InlineKeyboardButton behaviorButton = new InlineKeyboardButton(" " + BEHAVIOR).callbackData(BEHAVIOR);
+        InlineKeyboardButton healthAndStateButton = new InlineKeyboardButton(" " + HEALTH_AND_STATE).callbackData(HEALTH_AND_STATE);
+
+
+        // добавляем кнопки в том порядке,какой нам необходим
+        markupInline.addRow(behaviorButton, healthAndStateButton);
+
+        return markupInline;
+
+    }
+
+    /**
+     * Creating buttons to save anyway or correct report
+     * for incomplete reports
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
+    public static InlineKeyboardMarkup saveOrCorrectReport(long chatId) {
+
+        //Создаем объект разметки клавиатуры:
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки
+        InlineKeyboardButton saveAnywayButton = new InlineKeyboardButton(" " + SAVE_ANYWAY).callbackData(SAVE_ANYWAY);
+        InlineKeyboardButton correctButton = new InlineKeyboardButton(" " + CORRECT_REPORT).callbackData(CORRECT_REPORT);
+
+        // добавляем кнопки в первый ряд в том порядке,какой нам необходим
+        markupInline.addRow(saveAnywayButton, correctButton);
+
+        return markupInline;
+
+    }
+
+    /**
+     * Creating buttons to save anyway, call volunteer, cancel report
+     * for incomplete reports
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
+    public static InlineKeyboardMarkup saveCAllVolunteerOrCancelReport(long chatId) {
+
+        //Создаем объект разметки клавиатуры:
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки
+        InlineKeyboardButton saveAnywayButton = new InlineKeyboardButton(" " + SAVE_ANYWAY).callbackData(SAVE_ANYWAY);
+        InlineKeyboardButton correctButton = new InlineKeyboardButton(" " + CORRECT_REPORT).callbackData(CORRECT_REPORT);
+        InlineKeyboardButton cancelButton = new InlineKeyboardButton(" " + CANCEL_REPORT).callbackData(CANCEL_REPORT);
+
+        // добавляем кнопки в первый ряд в том порядке,какой нам необходим
+        markupInline.addRow(saveAnywayButton, correctButton, cancelButton);
+
+        InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
+        InlineKeyboardButton mainButton = new InlineKeyboardButton(Icon.MAIN.getParse() + " " + MAIN_PAGE).callbackData(MAIN_PAGE);
+
+        markupInline.addRow(volunteerButton, mainButton);
+
+        return markupInline;
+
+    }
+    /**
+     * Creating buttons for reports
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
+    public static InlineKeyboardMarkup saveOrCancelReport(long chatId) {
+
+        //Создаем объект разметки клавиатуры:
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
+        // Кнопки
+        InlineKeyboardButton saveButton = new InlineKeyboardButton(" " + SAVE_REPORT).callbackData(SAVE_REPORT);
+        InlineKeyboardButton correctButton = new InlineKeyboardButton(" " + CORRECT_REPORT).callbackData(CORRECT_REPORT);
+        InlineKeyboardButton cancelButton = new InlineKeyboardButton(" " + CANCEL_REPORT).callbackData(CANCEL_REPORT);
+
+        // добавляем кнопки в первый ряд в том порядке,какой нам необходим
+        markupInline.addRow(saveButton, correctButton, cancelButton);
+
+        return markupInline;
+    }
 }

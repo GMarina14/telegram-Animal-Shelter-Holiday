@@ -59,7 +59,18 @@ public class MenuButtonsConst {
     // BUTTONS FOR REPORTS SAMPLES
     public final static String CAT_REPORT="CAT REPORT";
     public final static String DOG_REPORT="DOG REPORT";
+    public final static String PHOTO= "PHOTO";
+    public final static String DIET="DIET";
+    public final static String BEHAVIOR = "BEHAVIOR";
+    public final static String HEALTH_AND_STATE = "HEALTH AND STATE";
 
+    // REPORT SAVE CORRECT CANCEL
+
+    public final static String SAVE_REPORT = "SAVE";
+    public final static String CORRECT_REPORT = "CORRECT";
+    public final static String CANCEL_REPORT = "CANCEL";
+
+    public final static String SAVE_ANYWAY="SAVE ANYWAY";
 
 
 }

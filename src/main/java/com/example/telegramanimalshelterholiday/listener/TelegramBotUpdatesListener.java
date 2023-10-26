@@ -26,6 +26,8 @@ import static com.example.telegramanimalshelterholiday.constants.InfoConstantsSh
 import static com.example.telegramanimalshelterholiday.constants.MenuButtonsConst.*;
 import static com.example.telegramanimalshelterholiday.constants.MenuHeadings.*;
 import static com.example.telegramanimalshelterholiday.constants.Recommendation.INFO_ABOUT_ADOPTION;
+import static com.example.telegramanimalshelterholiday.constants.ReportsConsts.REPORT_SAVED;
+import static com.example.telegramanimalshelterholiday.constants.enums.BotState.*;
 
 
 @Service
@@ -46,7 +48,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerReport handlerReport;
 
 
-
     @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
@@ -62,22 +63,25 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     @Override
     public int process(List<Update> updates) {
-        updates.forEach(update -> {
-            logger.info("Processing update: {}", update);
+        try {
+            updates.forEach(update -> {
+                logger.info("Processing update: {}", update);
 
                 if (update.message() != null) {
-                    firstMessage(update);
+                    processMessage(update);
+                } else if (update.callbackQuery() != null) {
 
-            } else if (update.callbackQuery() != null) {
+                    try {
+                        processButtonClick(update);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                try {
-                    processButtonClick(update);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
-
-            }
-        });
+            });
+        } catch (Exception e) {
+            logger.error("Error while entering a message", e);
+        }
 
 
      /*   try {
@@ -137,24 +141,59 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
 
-    private void firstMessage(Update update) {
+    private void processMessage(Update update) {
         String text = update.message().text();
         Long chatId = update.message().chat().id();
-    /*  Collection<Client> client =  clientRepository.findByChatId(chatId);
-      if (client.isEmpty())
-          clientRepository*/
+        BotState botState = userDataCache.getUsersCurrentBotState(chatId);
 
-        handlerClient.saveClient(update);
 
-        if (text.contains("/start"))
+        if (update.message().text().equals("/start")) {
+            handlerClient.saveClient(update);
             messageService.sendMessage(chatId, MESSAGE_TEXT);
-        else if (text == null) {
-            //messageService.sendMessage(chatId, MESSAGE_TEXT);
+        } else if (text == null) {
             return;
+        } else if (botState == null || botState.equals(CHOICES_SHELTER)) {
+            userDataCache.assignStartMenu(chatId); //присвоить начальное состояние бота
+            messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
         }
-        userDataCache.assignStartMenu(chatId); //присвоить начальное состояние бота
-        messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
 
+
+        if (botState != null) {
+
+            switch (botState) {
+                case CHOICES_SHELTER:
+                    messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+                    break;
+
+                case STAGE_WAITING_FOR_PET_PICTURE:
+                    // methods
+                    handlerReport.saveReportPhoto(update);
+                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_PET_DIET);
+                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
+                    break;
+
+                case STAGE_WAITING_FOR_PET_DIET:
+                    // methods
+                    handlerReport.getDietInfo(update);
+                    userDataCache.setUsersCurrentBotState(chatId, WAITING_FOR_BEHAVIOR_CHANGE);
+                    messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
+                    break;
+
+                case WAITING_FOR_BEHAVIOR_CHANGE:
+                    handlerReport.getBehavior(update);
+                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_HEALTH_INFO);
+                    messageService.sendMessage(chatId, SEND_HEALTH_AND_STATE_REPORT);
+                    break;
+
+
+                case STAGE_WAITING_FOR_HEALTH_INFO:
+                    handlerReport.getStateOfHealth(update);
+                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_TO_SAVE_REPORT);
+                    messageService.sendMessage(chatId, saveOrCancelReport(chatId), SAVE_CANCEL_CORRECT_REPORT);
+                    break;
+
+            }
+        }
     }
 
 
@@ -202,9 +241,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case ADOPTION_REPORTS:
-                   // handlerReport.sendPhoto(chatId);
-                    // YET IS EMPTY
-                      messageService.sendMessage(chatId, fifthMenuButtons(chatId), FIFTH_MENU);
+                    messageService.sendMessage(chatId, fifthMenuButtons(chatId), FIFTH_MENU);
                     break;
 
                 case CALL_VOLUNTEER:
@@ -263,7 +300,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
 
                 case DOG_HANDLER_RECOMMENDATIONS:
-
                     messageService.sendMessage(chatId, dogHandlers(chatId), DOG_HANDLERS);
                     break;
 
@@ -275,16 +311,26 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                     break;
 
+                case SEND_REPORT:
+                    //   botState = BotState.STAGE_WAITING_FOR_PET_PICTURE;
+                    botState = STAGE_WAITING_FOR_PET_DIET;
+                    handlerReport.createReport(chatId);
+                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
+
+                    // messageService.sendMessage(chatId, SEND_PHOTO_REPORT);
+                    break;
+
                 case GET_REPORT_SAMPLE:
-                    messageService.sendMessage(chatId, dogOrCatReportSample(chatId), REPORT_SAMPLE_TYPE);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerReport.sendReportSample(chatId, CAT_REPORT);
+                    } else {
+                        handlerReport.sendReportSample(chatId, DOG_REPORT);
+                    }
+                    // messageService.sendMessage(chatId, dogOrCatReportSample(chatId), REPORT_SAMPLE_TYPE);
                     break;
 
                 case MAIN_PAGE:
                     messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-                    break;
-
-                case PREVIOUS_PAGE:
-                    // по ответу на каком уровне сейчас и какой прошлый
                     break;
 
 
@@ -321,17 +367,49 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     handlerBeforeAdoptionInfo.getHomeAdjustmentInfo(HEALTHY, chatId);
                     break;
 
-                    // REPORTS
-                case CAT_REPORT:
-                    handlerReport.sendReportSample(chatId, CAT_REPORT);
+                // REPORTS
+                case SAVE_REPORT:
+                    handlerReport.saveReport(chatId);
                     break;
-                case DOG_REPORT:
-                    handlerReport.sendReportSample(chatId, DOG_REPORT);
+
+                case SAVE_ANYWAY:
+                    messageService.sendMessage(chatId, REPORT_SAVED);
+                    handlerReport.informVolunteerReportsAreIncomplete(chatId);
                     break;
+
+                case CORRECT_REPORT:
+                    messageService.sendMessage(chatId, reportButtons(chatId), REPORT_SECTIONS);
+                    break;
+
+                case CANCEL_REPORT:
+                    handlerReport.cancelReport(chatId);
+                    break;
+
+                case PHOTO:
+                    botState = BotState.STAGE_WAITING_FOR_PET_PICTURE;
+                    messageService.sendMessage(chatId, SEND_PHOTO_REPORT);
+                    // handlerReport.saveReportPhoto(update);
+                    break;
+
+                case DIET:
+                    botState = STAGE_WAITING_FOR_PET_DIET;
+                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
+                    break;
+
+                case HEALTH_AND_STATE:
+                    botState = STAGE_WAITING_FOR_HEALTH_INFO;
+                    messageService.sendMessage(chatId, SEND_HEALTH_AND_STATE_REPORT);
+
+                    break;
+
+                case BEHAVIOR:
+                    botState = WAITING_FOR_BEHAVIOR_CHANGE;
+                    messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
+                    break;
+
 
                 default:
                     messageService.sendMessage(chatId, MESSAGE_INFO);
-
 
             }
             userDataCache.setUsersCurrentBotState(chatId, botState);
@@ -339,25 +417,4 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-
-
-
-
-    /**
-     * метод формирует ответное сообщение для пользователя
-     *
-     */
-//    private void sendMessage(SendMessage message) {
-//        SendResponse response = telegramBot.execute(message);
-//        if (!isNull(response ) && !response.isOk()) {
-//            logger.warn("Message was not sent: {}, error code: {}", message, response.errorCode());
-//        }
-//    }
-
-
 }
-
-
-
-
-

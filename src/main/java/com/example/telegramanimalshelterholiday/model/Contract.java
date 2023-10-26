@@ -25,7 +25,11 @@ public class Contract {
     private Long id;
     @Column(name="contract_data")
     private LocalDate contractDate;
+    @Column(name = "chat_id")
+    private Long chatId;
 
+    @Column(name="probation_period")
+    private Integer probation;
 
     @OneToMany(mappedBy = "contract")
     @JsonIgnore
