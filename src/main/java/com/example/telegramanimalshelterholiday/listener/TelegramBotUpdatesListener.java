@@ -47,7 +47,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerReport handlerReport;
 
 
-
     @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
@@ -270,7 +269,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case REACH_ME_BACK:
                     handlerFeedback.reachBackClient(chatId);
                     botState = BotState.CHOICES_SHELTER;
-                    // сброс состояния?? на главное меню
+                    // сброс состояния на главное меню
                     messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
                     break;
 
@@ -318,16 +317,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 case LIST_OF_HANDLERS:
                     handlerBeforeAdoptionInfo.getHandlersRecommendations(chatId);
-
                     break;
 
                 case SEND_REPORT:
-                    //   botState = BotState.STAGE_WAITING_FOR_PET_PICTURE;
-                    botState = STAGE_WAITING_FOR_PET_DIET;
+                    botState = BotState.STAGE_WAITING_FOR_PET_PICTURE;
                     handlerReport.createReport(chatId);
-                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
-
-                    // messageService.sendMessage(chatId, SEND_PHOTO_REPORT);
+                    messageService.sendMessage(chatId, SEND_PHOTO_REPORT);
                     break;
 
                 case GET_REPORT_SAMPLE:
@@ -336,13 +331,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     } else {
                         handlerReport.sendReportSample(chatId, DOG_REPORT);
                     }
-                    // messageService.sendMessage(chatId, dogOrCatReportSample(chatId), REPORT_SAMPLE_TYPE);
                     break;
 
                 case MAIN_PAGE:
                     messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
                     break;
-
 
 
                 //  home adjustment buttons
@@ -417,7 +410,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     botState = WAITING_FOR_BEHAVIOR_CHANGE;
                     messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
                     break;
-
 
                 default:
                     messageService.sendMessage(chatId, MESSAGE_INFO);
