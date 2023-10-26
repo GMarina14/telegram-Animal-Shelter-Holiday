@@ -21,16 +21,14 @@ public class HandlerBeforeAdoptionInfo {
     /**
      * Provides info how to behave with an animal for the first time meeting each other
      *
-     * @param update
+     *
      * @param chatId
      */
-    public void getInfoAboutFirstMeeting(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
-        // check dog or cat shelter String replyText =
-        //messageService.sendMessage(chatId, replyText);
-
+    public void getInfoAboutFirstMeetingCat(long chatId) {
         messageService.sendMessage(chatId, RULES_HOW_TO_MEET_CAT);
-        //or
+    }
+
+    public void getInfoAboutFirstMeetingDog(long chatId) {
         messageService.sendMessage(chatId, RULES_HOW_TO_MEET_DOG);
     }
 
@@ -48,16 +46,13 @@ public class HandlerBeforeAdoptionInfo {
     /**
      * Provides recommendations of safe transportation
      *
-     * @param update
      * @param chatId
      */
-    public void getTransportationInfo(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
-        // check dog or cat shelter String replyText =
-        //messageService.sendMessage(chatId, replyText);
-
+    public void getTransportationInfoCat(long chatId) {
         messageService.sendMessage(chatId, RECOMMENDATIONS_FOR_CAT_TRANSPORTATION);
-        //or
+    }
+
+    public void getTransportationInfoDog( long chatId) {
         messageService.sendMessage(chatId, RECOMMENDATIONS_FOR_DOG_TRANSPORTATION);
 
     }
@@ -137,7 +132,6 @@ public class HandlerBeforeAdoptionInfo {
     public void getFirstHandlerDateRecommendations(long chatId) {
         messageService.sendMessage(chatId, RECOMMENDATIONS_FOR_THE_FIRST_MEETING_WITH_DOGHANDLER);
     }
-
 
 }
 

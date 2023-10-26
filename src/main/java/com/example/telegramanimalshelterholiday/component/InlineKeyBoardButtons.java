@@ -170,7 +170,7 @@ public class InlineKeyBoardButtons {
         // добавляем кнопки
         markupInline.addRow(transportationInfoButton, getContactsButton);
 
-        // создаем четвертый ряд меню, если выбрали ПРИЮТ СОБАК!!!
+        // создаем четвертый ряд меню, для ПРИЮТА СОБАК!!!
         InlineKeyboardButton volunteerButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + " " + CALL_VOLUNTEER).callbackData(CALL_VOLUNTEER);
         InlineKeyboardButton handlersRecommendationButton = new InlineKeyboardButton(Icon.VOLUNTEER.getParse() + Icon.DOG.getParse() + " " + DOG_HANDLER_RECOMMENDATIONS).callbackData(DOG_HANDLER_RECOMMENDATIONS);
 
@@ -286,10 +286,9 @@ public class InlineKeyBoardButtons {
         // Создаем объект InlineKeyboardButton (текст на кнопке, CallBackData - что будет отсылатся серверу при нажатии на кнопку)
         // Кнопки
         InlineKeyboardButton mainButton = new InlineKeyboardButton(Icon.MAIN.getParse() + " " + MAIN_PAGE).callbackData(MAIN_PAGE);
-        InlineKeyboardButton previousButton = new InlineKeyboardButton(Icon.PREVIOUS.getParse() + " " + PREVIOUS_PAGE).callbackData(PREVIOUS_PAGE);
 
         // добавляем кнопки в первый ряд в том порядке,какой нам необходим
-        markupInline.addRow(mainButton, previousButton);
+        markupInline.addRow(mainButton);
 
         return markupInline;
 

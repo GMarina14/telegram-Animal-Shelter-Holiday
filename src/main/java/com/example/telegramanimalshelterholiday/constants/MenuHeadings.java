@@ -10,7 +10,6 @@ public class MenuHeadings {
     public final static String HEALTH_MENU = "Выберите состояние здоровья Вашего питомца";
     public final static String MAIN_PREVIOUS= "Выберите на какую страницу Вы хотели бы вернуться";
     public final static String DOG_HANDLERS= "Выберите категорию";
-    public static final String MESSAGE_CONTACT="Заполните контактные данные.";
     public static final String REPORT_SAMPLE_TYPE = "Выберите вид животного";
     // BUTTONS REPORT SECTIONS
     public final static String REPORT_SECTIONS = "Выберите раздел отчета для заполнения";

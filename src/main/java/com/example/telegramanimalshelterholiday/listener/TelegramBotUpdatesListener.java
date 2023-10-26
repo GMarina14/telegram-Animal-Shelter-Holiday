@@ -43,9 +43,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final HandlerFeedback handlerFeedback;
     private final HandlerShelterInfo handlerShelterInfo;
     private final HandlerBeforeAdoptionInfo handlerBeforeAdoptionInfo;
-    private final HandlerState handlerState;
     private final UserDataCache userDataCache;
     private final HandlerReport handlerReport;
+
 
 
     @PostConstruct
@@ -223,9 +223,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 case ALL_ABOUT_SHELTER:
                     if (botState == BotState.SHELTER_CAT) {
-                        handlerShelterInfo.getGeneralShelterDescriptionCat(update, chatId);
+                        handlerShelterInfo.getGeneralShelterDescriptionCat(chatId);
                     } else {
-                        handlerShelterInfo.getGeneralShelterDescriptionDog(update, chatId);
+                        handlerShelterInfo.getGeneralShelterDescriptionDog(chatId);
                     }
                     messageService.sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
                     break;
@@ -233,7 +233,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case ADOPTION_INFO:
                     messageService.sendMessage(chatId, INFO_ABOUT_ADOPTION);
                     if (botState == BotState.SHELTER_CAT) {
-                        // Нужна проверка приюта, чтобы выдавать без кинологов кнопки
                         messageService.sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
                     } else {
                         messageService.sendMessage(chatId, fourthMenuButtonsDog(chatId), FOURTH_MENU);
@@ -249,9 +248,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case SHELTER_INFO:
-                    handlerShelterInfo.getShelterInformation(update, chatId);
-                    // check dog or cat shelter String replyText =
-                    //messageService.sendMessage(chatId, replyText);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerShelterInfo.getShelterInformationCat(chatId);
+                    } else {
+                        handlerShelterInfo.getShelterInformationDog(chatId);
+                    }
                     break;
 
                 case SECURITY_MEASURES:
@@ -259,9 +260,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case CAR_PASS:
-                    handlerShelterInfo.getCarPassInfo(update, chatId);
-                    // check dog or cat shelter String replyText =
-                    //messageService.sendMessage(chatId, replyText);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerShelterInfo.getCarPassInfoCat(chatId);
+                    } else {
+                        handlerShelterInfo.getCarPassInfoDog(chatId);
+                    }
                     break;
 
                 case REACH_ME_BACK:
@@ -272,7 +275,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case FIRST_MEETING:
-                    handlerBeforeAdoptionInfo.getInfoAboutFirstMeeting(update, chatId);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerBeforeAdoptionInfo.getInfoAboutFirstMeetingCat(chatId);
+                    } else {
+                        handlerBeforeAdoptionInfo.getInfoAboutFirstMeetingDog(chatId);
+                    }
                     break;
 
                 case DOCUMENTS_TO_ADOPT:
@@ -281,12 +288,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     break;
 
                 case TRANSPORTATION_INFO:
-                    handlerBeforeAdoptionInfo.getTransportationInfo(update, chatId);
+                    if (botState == BotState.SHELTER_CAT) {
+                        handlerBeforeAdoptionInfo.getTransportationInfoCat(chatId);
+                    } else {
+                        handlerBeforeAdoptionInfo.getTransportationInfoDog(chatId);
+                    }
                     break;
 
                 case HOME_ADJUSTMENT:
-                    // отправляем меню
-                    // check dog or cat shelter
                     if (botState == BotState.SHELTER_CAT) {
                         messageService.sendMessage(chatId, catAgeMenuButtons(chatId), AGE_MENU);
                     } else {
@@ -306,6 +315,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case FIRST_HANDLER_DATE:
                     handlerBeforeAdoptionInfo.getFirstHandlerDateRecommendations(chatId);
                     break;
+
                 case LIST_OF_HANDLERS:
                     handlerBeforeAdoptionInfo.getHandlersRecommendations(chatId);
 
@@ -332,6 +342,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case MAIN_PAGE:
                     messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
                     break;
+
 
 
                 //  home adjustment buttons
@@ -418,3 +429,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
 }
+
+
+
+
+

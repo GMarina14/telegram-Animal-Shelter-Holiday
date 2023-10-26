@@ -29,7 +29,6 @@ public class HandlerFeedback {
     public void reachBackClient(long chatId) {
         logger.info("UserId = {}", chatId);
         Volunteer randomVolunteer;
-
         try {
             randomVolunteer = volunteerService.getRandomVolunteer();
         } catch (NotFoundConfigException e) {
