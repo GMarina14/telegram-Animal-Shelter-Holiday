@@ -1,6 +1,10 @@
 package com.example.telegramanimalshelterholiday.component;
 
 import com.example.telegramanimalshelterholiday.cache.UserDataCache;
+import com.example.telegramanimalshelterholiday.constants.enums.BotState;
+import com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies;
+import com.example.telegramanimalshelterholiday.model.Shelter;
+import com.example.telegramanimalshelterholiday.repository.ShelterRepository;
 import com.example.telegramanimalshelterholiday.service.MessageService;
 import com.example.telegramanimalshelterholiday.service.ShelterService;
 import com.pengrad.telegrambot.model.Update;
@@ -9,55 +13,59 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 import static com.example.telegramanimalshelterholiday.constants.InfoConstantsShelters.*;
+import static com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies.CAT;
+import static com.example.telegramanimalshelterholiday.constants.enums.PetsSpecies.DOG;
+import static java.util.Objects.isNull;
 
 @Component
 @RequiredArgsConstructor
 public class HandlerShelterInfo {
     private static final Logger logger = LoggerFactory.getLogger(HandlerShelterInfo.class);
     private final MessageService messageService;
-    private final ShelterService shelterService;
-    private final UserDataCache userDataCache;
+    private final ShelterRepository shelterRepository;
 
     /**
      * Provides the shelter description
      *
-     * @param update
      * @param chatId
      */
-    public void getGeneralShelterDescriptionCat(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
-        // check dog or cat shelter String replyText =
-        //messageService.sendMessage(chatId, replyText);
-
+    public void getGeneralShelterDescriptionCat(long chatId) {
         messageService.sendMessage(chatId, ABOUT_CAT_SHELTER);
-        //or
-//        messageService.sendMessage(chatId, ABOUT_DOG_SHELTER);
-   }
-    public void getGeneralShelterDescriptionDog(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
-        // check dog or cat shelter String replyText =
-        //messageService.sendMessage(chatId, replyText);
-
-       // messageService.sendMessage(chatId, ABOUT_CAT_SHELTER);
-
-        messageService.sendMessage(chatId, ABOUT_DOG_SHELTER);
     }
 
+    public void getGeneralShelterDescriptionDog(long chatId) {
+        messageService.sendMessage(chatId, ABOUT_DOG_SHELTER);
+    }
 
     /**
      * Provides all information about the shelter:
      * the address, schedule, phone and etc
      */
-    public void getShelterInformation(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
+    public void getShelterInformationCat(long chatId) {
+        StringBuilder messageText = new StringBuilder();
+        PetsSpecies petsSpecies = CAT;
+        Shelter byPetsSpecies = shelterRepository.findByPetsSpecies(CAT);
 
+        messageText.append("Город: ").append(byPetsSpecies.getCity()).append("\n");
+        messageText.append("Адрес: ").append(byPetsSpecies.getAddress()).append("\n");
+        messageText.append("Часы работы: ").append(byPetsSpecies.getYandexMapsUrl()).append("\n");
 
-        // for cat shelter
+        messageService.sendMessage(chatId, messageText.toString() + WORK_HOURS_CAT_SHELTER);
+    }
 
-
-        // for dog shelter
-
+    public void getShelterInformationDog(long chatId) {
+        StringBuilder messageText = new StringBuilder();
+        PetsSpecies petsSpecies = DOG;
+        Shelter byPetsSpecies = shelterRepository.findByPetsSpecies(DOG);
+        messageText.append("Город: ").append(byPetsSpecies.getCity()).append("\n");
+        messageText.append("Адрес: ").append(byPetsSpecies.getAddress()).append("\n");
+        messageText.append("Часы работы: ").append(byPetsSpecies.getYandexMapsUrl()).append("\n");
+        messageService.sendMessage(chatId, messageText.toString() + WORK_HOURS_DOG_SHELTER);
     }
 
 
@@ -74,18 +82,16 @@ public class HandlerShelterInfo {
     /**
      * Provides information how to get to the shelter on car and how to get a car pass
      *
-     * @param update
      * @param chatId
      */
-    public void getCarPassInfo(Update update, long chatId) {
-        // third param - state or smth to know the shelter type
-        // check dog or cat shelter String replyText =
-        //messageService.sendMessage(chatId, replyText);
-
+    public void getCarPassInfoCat(long chatId) {
         messageService.sendMessage(chatId, CAR_PASS_INFO_CAT);
-        //or
+
+    }
+
+    public void getCarPassInfoDog(long chatId) {
         messageService.sendMessage(chatId, CAR_PASS_INFO_DOG);
     }
 
-
 }
+

@@ -5,14 +5,12 @@ import com.example.telegramanimalshelterholiday.repository.ClientRepository;
 import com.pengrad.telegrambot.model.Update;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class HandlerClient {
-    private static final Logger logger = LoggerFactory.getLogger(HandlerClient.class);
+
     private final ClientRepository clientRepository;
 
     /**

@@ -13,4 +13,5 @@ public interface DataCache {
 
     BotState getUsersCurrentBotState(long chatId);
 
+    BotState assignStartMenu(long chatId);
 }

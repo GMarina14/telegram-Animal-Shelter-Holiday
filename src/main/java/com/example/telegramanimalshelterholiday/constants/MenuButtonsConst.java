@@ -49,7 +49,6 @@ public class MenuButtonsConst {
 
     //BUTTONS TO RETURN
     public final static String MAIN_PAGE = "MAIN PAGE";
-    public final static String PREVIOUS_PAGE = "PREVIOUS PAGE";
 
     // BUTTONS
     public final static String FIRST_HANDLER_DATE = "FIRST HANDLER DATE";
