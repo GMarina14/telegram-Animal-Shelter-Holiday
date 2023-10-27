@@ -59,6 +59,7 @@ public class HandlerReport {
 
     /**
      * Method creates report with empty fields if adopter presses send report
+     *
      * @param chatId
      */
     public void createReport(long chatId) {
@@ -157,7 +158,6 @@ public class HandlerReport {
     public void saveReportPhoto(Update update) {
         long chatId = update.message().chat().id();
         reportExists(chatId);
-
         Report report = reportRepository.findByChatIdAndAndReportDate(chatId, LocalDate.now());
         if (update.message().photo() != null) {
             byte[] photo = getPhoto(update);
