@@ -110,8 +110,4 @@ public class DogReportController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(report);
     }
-
-/*-
-
-- позвать волонтера (catOrDog/shelter/report/call-volunteer)*/
 }

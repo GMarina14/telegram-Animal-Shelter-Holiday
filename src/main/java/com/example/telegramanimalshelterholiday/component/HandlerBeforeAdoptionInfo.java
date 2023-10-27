@@ -20,8 +20,6 @@ public class HandlerBeforeAdoptionInfo {
 
     /**
      * Provides info how to behave with an animal for the first time meeting each other
-     *
-     *
      * @param chatId
      */
     public void getInfoAboutFirstMeetingCat(long chatId) {
@@ -134,7 +132,3 @@ public class HandlerBeforeAdoptionInfo {
     }
 
 }
-
-
-
-

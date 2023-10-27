@@ -1,30 +1,30 @@
 package com.example.telegramanimalshelterholiday.service;
 
+
 import com.example.telegramanimalshelterholiday.listener.TelegramBotUpdatesListener;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
-import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.pengrad.telegrambot.TelegramBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 import static java.util.Objects.isNull;
 
 
 
 @Service
+@RequiredArgsConstructor
 public class MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
     private final TelegramBot telegramBot;
 
-    public MessageService(TelegramBot telegramBot) {
-        this.telegramBot = telegramBot;
-    }
 
     /**
      * Send any message w/ inline markup keyboard

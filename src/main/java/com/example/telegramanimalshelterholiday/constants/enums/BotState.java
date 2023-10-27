@@ -21,7 +21,5 @@ public enum BotState {
     NOT_COMPLETE_REPORT, //не полный отчет
 
     STAGE_WAITING_TO_SAVE_REPORT,
-
-
     DEFAULT
 }

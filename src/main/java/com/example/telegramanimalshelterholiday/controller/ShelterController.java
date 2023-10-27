@@ -202,5 +202,4 @@ public class ShelterController {
         return ResponseEntity.ok(allClient);
     }
 
-
 }

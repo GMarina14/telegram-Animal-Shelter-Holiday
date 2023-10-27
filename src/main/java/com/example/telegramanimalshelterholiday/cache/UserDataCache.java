@@ -37,12 +37,17 @@ public class UserDataCache implements DataCache {
         return botState;
     }
 
+    /**
+     * присвоит первоначальное состояние бота по chatId
+     *
+     * @param chatId
+     * @return
+     */
     @Override
     public BotState assignStartMenu(long chatId) {
         BotState botState = userBotStates.get(chatId);
         if (isNull(botState)) {
             botState = BotState.CHOICES_SHELTER;
-            //первое сотояние бота вернуться может метод войд
         }
         return botState;
     }

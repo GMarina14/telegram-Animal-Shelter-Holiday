@@ -22,13 +22,12 @@ public class HandlerVolunteer {
     private final MessageService messageService;
 
     /**
-     * @param update
+     * This method calls volunteer
      * @param chatIdC
      */
-    public void callVolunteer(Update update, long chatIdC) {
+    public void callVolunteer(long chatIdC) {
 
-        long userId = chatIdC; // user's chat_id
-        logger.info("UserId = {}", userId);
+        logger.info("UserId = {}", chatIdC);
         Volunteer randomVolunteer;
 
         try {
@@ -37,13 +36,10 @@ public class HandlerVolunteer {
             logger.error("Volunteer not found");
             System.out.println(e.getMessage());
             System.out.println("Exception was processed. Program continues");
-            messageService.sendMessage(userId, NO_VOLUNTEERS);
+            messageService.sendMessage(chatIdC, NO_VOLUNTEERS);
             return;
         }
-        // Volunteer chat_id. Send message to volunteer.
-        messageService.sendMessage(randomVolunteer.getChatId(), String.format(CONTACT_USER, userId));
+        messageService.sendMessage(randomVolunteer.getChatId(), String.format(CONTACT_USER, chatIdC));
         messageService.sendMessage(chatIdC, FEED_BACK_WILL_BE_PROVIDED);
     }
-
-
 }

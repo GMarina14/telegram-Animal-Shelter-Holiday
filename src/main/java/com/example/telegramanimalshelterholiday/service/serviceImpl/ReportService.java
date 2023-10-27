@@ -1,5 +1,6 @@
 package com.example.telegramanimalshelterholiday.service.serviceImpl;
 
+import com.example.telegramanimalshelterholiday.exception.ContractNotFoundException;
 import com.example.telegramanimalshelterholiday.model.Report;
 import com.example.telegramanimalshelterholiday.model.Volunteer;
 import com.example.telegramanimalshelterholiday.repository.ReportRepository;
@@ -34,8 +35,9 @@ public class ReportService implements ReportInterface {
     public Report createReport(Long contractId, Report report) {
         logger.info("Calling method of report creation");
 
-        // Нужна проверка наличия контракта с таким номером через репозиторий контракта с выбросом исключения
-
+        if (reportRepository.findAllByContractId(contractId).isEmpty()){
+            throw new ContractNotFoundException("Контракта с таким id не существует");
+        }
         return reportRepository.save(report);
     }
 
@@ -69,18 +71,4 @@ public class ReportService implements ReportInterface {
     }
 
 
-    /**
-     * В случае возникновения каких-то вопросов, метод позволяет вызвать волонтера, закрепленного по конкретному контракту
-     *
-     * @param contractId
-     * @return
-     */
-    public Volunteer callVolunteer(Long contractId) {
-        logger.info("Method to call volunteer if something went wrong");
-        // нужен репозиторий контракта, чтобы возвращать сущность волонтера контракта
-
-        return null;
-
-
-    }
 }

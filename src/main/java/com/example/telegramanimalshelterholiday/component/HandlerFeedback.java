@@ -39,7 +39,6 @@ public class HandlerFeedback {
         } finally {
             messageService.sendMessage(chatId, FEED_BACK_WILL_BE_PROVIDED);
         }
-        // Volunteer chat_id. Send message to volunteer.
         messageService.sendMessage(randomVolunteer.getChatId(), String.format(CONTACT_USER, chatId));
     }
 

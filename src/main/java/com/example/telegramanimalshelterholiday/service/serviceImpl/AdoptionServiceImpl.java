@@ -12,7 +12,6 @@ public class AdoptionServiceImpl implements AdoptionService {
     Recommendation recommendation = new Recommendation();
 
 
-    ////////////For all///////////////
     public String getInfoAboutAdoption() {
         return recommendation.INFO_ABOUT_ADOPTION;
     }
@@ -38,7 +37,6 @@ public class AdoptionServiceImpl implements AdoptionService {
     }
 
 
-    ////////////Especially for cats///////////////
     @Override
     public String getInfoAboutFirstMeetWithCat() {
         return recommendation.RULES_HOW_TO_MEET_CAT;
@@ -65,9 +63,6 @@ public class AdoptionServiceImpl implements AdoptionService {
     }
 
 
-
-
-    ////////////Especially for dogs///////////////
     @Override
     public String getInfoAboutFirstMeetWithDog() {
         return recommendation.RULES_HOW_TO_MEET_DOG;
@@ -102,6 +97,4 @@ public class AdoptionServiceImpl implements AdoptionService {
     public String getGoodDoghandlers() {
         return recommendation.RECOMMENDATIONS_OF_DOGSHANDLERS;
     }
-
-
 }
