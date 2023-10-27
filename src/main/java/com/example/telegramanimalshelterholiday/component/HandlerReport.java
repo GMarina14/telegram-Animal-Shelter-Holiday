@@ -159,7 +159,6 @@ public class HandlerReport {
     public void saveReportPhoto(Update update) {
         long chatId = update.message().chat().id();
         reportExists(chatId);
-
         Report report = reportRepository.findByChatIdAndAndReportDate(chatId, LocalDate.now());
         if (update.message().photo() != null) {
             byte[] photo = getPhoto(update);
