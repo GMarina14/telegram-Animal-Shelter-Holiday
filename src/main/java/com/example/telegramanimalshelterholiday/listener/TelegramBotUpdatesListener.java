@@ -76,66 +76,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         throw new RuntimeException(e);
                     }
 
+                }else if (update.message().photo() != null || update.message().caption() != null){
+                    // обработка репорта
+                    handlerReport.saveReportPhoto(update);
+
                 }
             });
         } catch (Exception e) {
             logger.error("Error while entering a message", e);
         }
 
-
-     /*   try {
-            updates.forEach(update -> {
-                logger.info("Processing update: {}", update);
-                String text = update.message().text();
-                Long chatId = update.message().chat().id();
-
-
-                if (!isNull(update.message()) && text.contains("/start")) {
-                    SendMessage message = new SendMessage(chatId, MESSAGE_TEXT);
-                    telegramBot.execute(message);
-
-                    sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-              *//*  } else if(update.message() != null){
-
-                //  sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-*//*
-                } else {
-
-
-                    if (update.callbackQuery() != null) {
-                        processButtonClick(update);
-
-
-                        //  if (update.callbackQuery() != null) {
-
-                        //     telegramBot.execute(sendInlineKeyBoardMessage(chatId));
-                        //  telegramBot.execute(secondMenuInlineKeyBoardMessage(chatId));
-                        //   telegramBot.execute(thirdMenuInlineKeyBoardMessage(chatId));
-
-                        //    sendMessage(chatId, secondMenuButtons(chatId), SECOND_MENU);
-                        //  sendMessage(chatId, thirdMenuButtons(chatId), THIRD_MENU);
-                        // sendMessage(chatId, fourthMenuButtons(chatId), FOURTH_MENU);
-                        //  sendMessage(chatId, petSpecificMenuButtons(chatId), HEALTH_MENU);
-                        // sendMessage(chatId, dogAgeMenuButtons(chatId), AGE_MENU);
-                  *//*  if(update.callbackQuery()!=null){
-                        update.callbackQuery().data();
-                    }
-*//*
-                        //   sendMessage(chatId, fifthMenuButtons(chatId),FIFTH_MENU);
-
-
-                        // telegramBot.execute(fourthMenuInlineKeyBoardMessage(chatId));
-                        // telegramBot.execute(fifthMenuInlineKeyBoardMessage(chatId));
-
-
-                        //    }
-                    }
-                }
-
-            });
-        } catch (Exception e) {
-            logger.error("Error while entering a message", e);
-        }*/
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
@@ -166,7 +116,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 case STAGE_WAITING_FOR_PET_PICTURE:
                     // methods
-                    handlerReport.saveReportPhoto(update);
+                    //  handlerReport.saveReportPhoto(update);
                     userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_PET_DIET);
                     messageService.sendMessage(chatId, SEND_DIET_REPORT);
                     break;

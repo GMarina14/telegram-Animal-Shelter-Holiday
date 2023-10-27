@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -32,12 +33,12 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.reportButtons;
 import static com.example.telegramanimalshelterholiday.component.InlineKeyBoardButtons.saveOrCorrectReport;
@@ -59,6 +60,7 @@ public class HandlerReport {
 
     /**
      * Method creates report with empty fields if adopter presses send report
+     *
      * @param chatId
      */
     public void createReport(long chatId) {
@@ -167,6 +169,7 @@ public class HandlerReport {
             messageService.sendMessage(chatId, REPORT_PHOTO_IS_SAVED);
         }
 
+
     }
 
 
@@ -178,7 +181,8 @@ public class HandlerReport {
      */
     public byte[] getPhoto(Update update) {
 
-        if (update.message().photo() != null) {
+
+      if (update.message().photo() != null) {
             logger.info("Method to save photo to DB was invoked");
 
             // photos are represented as an arrays of PhotoSize in telegram
@@ -196,13 +200,14 @@ public class HandlerReport {
                     String getFilePath = getFileResponse.file().filePath(); // File path Use https://api.telegram.org/file/bot<token>/<file_path> to get the file
 
                     try {
-                        byte[] pic = telegramBot.getFileContent(file);
+                        byte[] pic = telegramBot.getFileContent(getFileResponse.file()); //Files.readAllBytes(Path.of(getFilePath))
                         return pic;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
+
         }
         return null;
     }
@@ -371,8 +376,6 @@ public class HandlerReport {
             } else if (today.equals(probExpired)) {
                 messageService.sendMessage(randomVolunteer.getChatId(), String.format(ASK_VOLUNTEER_ABOUT_PROBATION, chatId, contract.getId()));
             }
-
-
         }
     }
 
