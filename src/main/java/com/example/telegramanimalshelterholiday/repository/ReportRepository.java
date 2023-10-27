@@ -30,5 +30,8 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     public Optional<Collection<Report>> findAllByReportDate(LocalDate date);
 
 
+    Report findReportByContractId(Long contractId);
+
+
 
 }

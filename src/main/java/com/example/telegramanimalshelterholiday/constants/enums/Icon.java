@@ -37,8 +37,7 @@ public enum Icon {
     public String getParse() {
         return EmojiParser.parseToUnicode(value);
     }
-//аналог записи
-//    public final static String EMOJI_CAT=EmojiParser.parseToUnicode(":cat:");
+
 
 
 }

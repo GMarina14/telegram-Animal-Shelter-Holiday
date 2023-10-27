@@ -139,9 +139,12 @@ public class InlineKeyBoardButtons {
         return markupInline;
 
     }
-
-
-    //меню для собак
+    /**
+     * Creating buttons so user can choose the needed info to get home with a pet from the shelter (fourth menu)
+     *
+     * @param chatId
+     * @return {@code InlineKeyboardMarkup}
+     */
     public static InlineKeyboardMarkup fourthMenuButtonsDog(long chatId) {
         //Создаем объект разметки клавиатуры:
 

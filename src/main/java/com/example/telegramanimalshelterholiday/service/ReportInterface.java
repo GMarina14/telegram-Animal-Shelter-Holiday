@@ -13,5 +13,4 @@ public interface ReportInterface {
 
      Report getReport(Long contractId, LocalDate date);
 
-     Volunteer callVolunteer(Long contractId);
 }

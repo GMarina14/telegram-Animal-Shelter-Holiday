@@ -10,4 +10,4 @@ volunteer_id INT8 REFERENCES volunteer(id)
 CREATE SEQUENCE adopter_sequence START 2 INCREMENT 1;
 
 INSERT INTO adopter(id, first_name, last_name, chat_id, user_name, phone_number, volunteer_id)
-VALUES (1,'Marina' ,'Gydova',250478712,'gmarina14','8967720998',1);
+VALUES (1,'Marina' ,'Gudova',250478712,'gmarina14','8967720998',1);
