@@ -146,54 +146,103 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         BotState botState = userDataCache.getUsersCurrentBotState(chatId);
 
 
-        if (update.message().text().equals("/start")) {
-            handlerClient.saveClient(update);
-            messageService.sendMessage(chatId, MESSAGE_TEXT);
-        } else if (text == null) {
+        if (botState == STAGE_WAITING_FOR_PET_PICTURE) {
+            handlerReport.saveReportPhoto(update);
+            userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_PET_DIET);
+            messageService.sendMessage(chatId, SEND_DIET_REPORT);
             return;
-        } else if (botState == null || botState.equals(CHOICES_SHELTER)) {
-            userDataCache.assignStartMenu(chatId); //присвоить начальное состояние бота
-            messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+        }
+        if (botState == STAGE_WAITING_FOR_PET_DIET) {
+            handlerReport.getDietInfo(update);
+            userDataCache.setUsersCurrentBotState(chatId, WAITING_FOR_BEHAVIOR_CHANGE);
+            messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
+            return;
+        }
+        if (botState == WAITING_FOR_BEHAVIOR_CHANGE) {
+            handlerReport.getBehavior(update);
+            userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_HEALTH_INFO);
+            messageService.sendMessage(chatId, SEND_HEALTH_AND_STATE_REPORT);
+        }
+        if (botState == STAGE_WAITING_FOR_HEALTH_INFO) {
+            handlerReport.getStateOfHealth(update);
+            userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_TO_SAVE_REPORT);
+            messageService.sendMessage(chatId, saveOrCancelReport(chatId), SAVE_CANCEL_CORRECT_REPORT);
+            return;
         }
 
-
-        if (botState != null) {
-
-            switch (botState) {
-                case CHOICES_SHELTER:
-                    messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
-                    break;
-
-                case STAGE_WAITING_FOR_PET_PICTURE:
-                    // methods
-                    handlerReport.saveReportPhoto(update);
-                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_PET_DIET);
-                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
-                    break;
-
-                case STAGE_WAITING_FOR_PET_DIET:
-                    // methods
-                    handlerReport.getDietInfo(update);
-                    userDataCache.setUsersCurrentBotState(chatId, WAITING_FOR_BEHAVIOR_CHANGE);
-                    messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
-                    break;
-
-                case WAITING_FOR_BEHAVIOR_CHANGE:
-                    handlerReport.getBehavior(update);
-                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_HEALTH_INFO);
-                    messageService.sendMessage(chatId, SEND_HEALTH_AND_STATE_REPORT);
-                    break;
-
-
-                case STAGE_WAITING_FOR_HEALTH_INFO:
-                    handlerReport.getStateOfHealth(update);
-                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_TO_SAVE_REPORT);
-                    messageService.sendMessage(chatId, saveOrCancelReport(chatId), SAVE_CANCEL_CORRECT_REPORT);
-                    break;
-
-            }
+        if (update.message().text() == null) {
+            return;
         }
+        switch (update.message().text()) {
+            case "/start":
+                handlerClient.saveClient(update);
+                messageService.sendMessage(chatId, MESSAGE_TEXT);
+                break;
+        }
+
+        if (botState == CHOICES_SHELTER) {
+           messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+           return;
+       }
     }
+
+
+//    private void processMessage(Update update) {
+//        String text = update.message().text();
+//        Long chatId = update.message().chat().id();
+//        BotState botState = userDataCache.getUsersCurrentBotState(chatId);
+//
+//        if (update.message().text().equals("/start")) {
+//            userDataCache.assignStartMenu(chatId);
+//            handlerClient.saveClient(update);
+//            messageService.sendMessage(chatId, MESSAGE_TEXT);
+//        }
+//        if(text==null){
+//            return;
+//        }
+//
+//        else if (botState == null || botState.equals(CHOICES_SHELTER)) {
+//            //  userDataCache.assignStartMenu(chatId); //присвоить начальное состояние бота
+//            messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+//        }
+//
+//        if (botState != null) {
+//
+//            switch (botState) {
+//                case CHOICES_SHELTER:
+//                    messageService.sendMessage(chatId, firstMenuButtons(chatId), FIRST_MENU);
+//                    break;
+//
+//                case STAGE_WAITING_FOR_PET_PICTURE:
+//                    // methods
+//                    handlerReport.saveReportPhoto(update);
+//                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_PET_DIET);
+//                    messageService.sendMessage(chatId, SEND_DIET_REPORT);
+//                    break;
+//
+//                case STAGE_WAITING_FOR_PET_DIET:
+//                    // methods
+//                    handlerReport.getDietInfo(update);
+//                    userDataCache.setUsersCurrentBotState(chatId, WAITING_FOR_BEHAVIOR_CHANGE);
+//                    messageService.sendMessage(chatId, SEND_BEHAVIOR_REPORT);
+//                    break;
+//
+//                case WAITING_FOR_BEHAVIOR_CHANGE:
+//                    handlerReport.getBehavior(update);
+//                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_FOR_HEALTH_INFO);
+//                    messageService.sendMessage(chatId, SEND_HEALTH_AND_STATE_REPORT);
+//                    break;
+//
+//
+//                case STAGE_WAITING_FOR_HEALTH_INFO:
+//                    handlerReport.getStateOfHealth(update);
+//                    userDataCache.setUsersCurrentBotState(chatId, STAGE_WAITING_TO_SAVE_REPORT);
+//                    messageService.sendMessage(chatId, saveOrCancelReport(chatId), SAVE_CANCEL_CORRECT_REPORT);
+//                    break;
+//
+//            }
+//        }
+//    }
 
 
     /**

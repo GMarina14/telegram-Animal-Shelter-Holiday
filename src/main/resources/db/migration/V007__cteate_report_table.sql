@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS report(
 id INT8 PRIMARY KEY NOT NULL,
 report_data DATE,
 chat_id INT8,
-photo BYTEA,
+photo bytea,
 diet VARCHAR,
 health VARCHAR,
 behavior VARCHAR,
