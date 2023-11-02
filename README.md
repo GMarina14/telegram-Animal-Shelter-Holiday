@@ -1,6 +1,6 @@
 # **Animal shelter "Holiday"**
-![image1](https://github.com/GMarina14/telegramAnimalShelterHoliday/assets/123187509/746394db-435e-46b0-a3b8-0cf92a2b6210)
 
+![image1](https://github.com/GMarina14/telegram-Animal-Shelter-Holiday/assets/123187509/5870d8b3-2a2b-4faa-85d7-a123db69777c)
 
 
 _Командная работа курса "Профессия  Java-разработчик IND3.0" платформы SkyPro_
